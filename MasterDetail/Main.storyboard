@@ -88,7 +88,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="176" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="365" y="64" width="160" height="240"/>
                                 <variation key="heightClass=regular-widthClass=compact">
-                                    <rect key="frame" x="85" y="64" width="160" height="240"/>
+                                    <rect key="frame" x="179" y="64" width="160" height="240"/>
                                 </variation>
                                 <constraints>
                                     <constraint id="299" firstAttribute="width" constant="160"/>
@@ -96,7 +96,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Author" lineBreakMode="tailTruncation" minimumFontSize="10" id="333" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
-                                <rect key="frame" x="320" y="405" width="250" height="39"/>
+                                <rect key="frame" x="320" y="394" width="250" height="39"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -116,6 +116,17 @@
                                     <constraint id="351" firstAttribute="height" constant="29"/>
                                 </constraints>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Date Added" lineBreakMode="tailTruncation" minimumFontSize="10" id="360" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                <rect key="frame" x="320" y="456" width="250" height="36"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <constraints>
+                                    <constraint id="365" firstAttribute="width" constant="250"/>
+                                    <constraint id="366" firstAttribute="height" constant="36"/>
+                                </constraints>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -123,10 +134,12 @@
                             <constraint id="298" constant="64" firstItem="176" firstAttribute="top" secondItem="MMQ-IT-qOo" secondAttribute="top"/>
                             <constraint id="329" constant="30" firstItem="MMQ-IT-qOo" firstAttribute="trailing" secondItem="37" secondAttribute="trailing"/>
                             <constraint id="330" constant="228" firstItem="MMQ-IT-qOo" firstAttribute="bottom" secondItem="37" secondAttribute="bottom"/>
-                            <constraint id="336" firstItem="MMQ-IT-qOo" firstAttribute="trailing" secondItem="333" secondAttribute="trailing" constant="30"/>
-                            <constraint id="337" constant="156" firstItem="MMQ-IT-qOo" firstAttribute="bottom" secondItem="333" secondAttribute="bottom"/>
                             <constraint id="348" firstItem="MMQ-IT-qOo" firstAttribute="trailing" secondItem="345" secondAttribute="trailing" constant="30"/>
                             <constraint id="349" constant="59" firstItem="MMQ-IT-qOo" firstAttribute="bottom" secondItem="345" secondAttribute="bottom"/>
+                            <constraint id="358" firstItem="MMQ-IT-qOo" firstAttribute="trailing" secondItem="333" secondAttribute="trailing" constant="30"/>
+                            <constraint id="359" constant="167" firstItem="MMQ-IT-qOo" firstAttribute="bottom" secondItem="333" secondAttribute="bottom"/>
+                            <constraint id="363" firstItem="MMQ-IT-qOo" firstAttribute="trailing" secondItem="360" secondAttribute="trailing" constant="30"/>
+                            <constraint id="364" constant="108" firstItem="MMQ-IT-qOo" firstAttribute="bottom" secondItem="360" secondAttribute="bottom"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="cra-N8-TIN"/>
@@ -135,6 +148,7 @@
                         <outlet property="coverImage" destination="176" id="name-outlet-176"/>
                         <outlet property="authorLabel" destination="333" id="name-outlet-333"/>
                         <outlet property="summaryButton" destination="345" id="name-outlet-345"/>
+                        <outlet property="dateAddedLabel" destination="360" id="name-outlet-360"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>

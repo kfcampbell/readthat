@@ -39,22 +39,36 @@ namespace MasterDetail
 				downloadAsync ();
 				titleLabel.Text = DetailItem.getTitle ();
 				authorLabel.Text = DetailItem.getAuthor ();
+				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
 				summaryButton.Hidden = false;
 
 				summaryButton.TouchUpInside += (object sender, EventArgs e) => 
 				{
-					var alert = UIAlertController.Create("Book Summary", DetailItem.getSummary(), UIAlertControllerStyle.Alert);
+					if(DetailItem.getSummary() != String.Empty)
+					{
+						var alert = UIAlertController.Create("Book Summary", DetailItem.getSummary(), UIAlertControllerStyle.Alert);
 
-					// add buttons
-					alert.AddAction(UIAlertAction.Create("Looks Interesting", UIAlertActionStyle.Default, null));
+						// add buttons
+						alert.AddAction(UIAlertAction.Create("Looks Interesting", UIAlertActionStyle.Default, null));
 
-					// actually show the thing
-					PresentViewController(alert, true, null);
+						// actually show the thing
+						PresentViewController(alert, true, null);
+					}
+					else
+					{
+						var alert = UIAlertController.Create("Book Summary", "The summary looks empty. Sorry about that.", UIAlertControllerStyle.Alert);
+
+						// add buttons
+						alert.AddAction(UIAlertAction.Create("Aww man.", UIAlertActionStyle.Default, null));
+
+						// actually show the thing
+						PresentViewController(alert, true, null);
+					}
 				};
 			}
 		}
 
-		async void downloadAsync(/*object sender, System.EventArgs ea*/)
+		async void downloadAsync()
 		{
 			webClient = new WebClient ();
 			//An large image url
@@ -80,8 +94,9 @@ namespace MasterDetail
 			string localPath = Path.Combine (documentsPath, localFilename);
 
 			//Save the image using writeAsync
-			FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate);
+			FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 			await fs.WriteAsync (bytes, 0, bytes.Length);
+			fs.Close ();
 
 			Console.WriteLine("localPath:"+localPath);
 

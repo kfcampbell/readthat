@@ -7,12 +7,16 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SQLite;
 
 namespace MasterDetail
 {
 	public partial class MasterViewController : UITableViewController
 	{
 		DataSource dataSource;
+		private string _pathToDatabase;
+		private string _databaseName = "book_database.db";
+		public IList<Book> bookList;
 
 		public MasterViewController (IntPtr handle) : base (handle)
 		{
@@ -23,6 +27,15 @@ namespace MasterDetail
 		{
 			base.ViewDidLoad ();
 
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = BookList (db);
+
 			// Perform any additional setup after loading the view, typically from a nib.
 			NavigationItem.LeftBarButtonItem = EditButtonItem;
 
@@ -30,7 +43,7 @@ namespace MasterDetail
 			addButton.AccessibilityLabel = "addButton";
 			NavigationItem.RightBarButtonItem = addButton;
 
-			TableView.Source = dataSource = new DataSource (this);
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -39,14 +52,61 @@ namespace MasterDetail
 			// Release any cached data, images, etc that aren't in use.
 		}
 
+		private void createDatabase()
+		{
+			// Create the database and a table to hold Person information.
+			using (var conn= new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				conn.CreateTable<Book>();
+			}
+			Console.Out.WriteLine ("Database was created");
+		}
+
+		private void insertToDatabase(Book newBook)
+		{
+			using (var db = new SQLite.SQLiteConnection(_pathToDatabase ))
+			{
+				db.Insert(newBook);
+			}
+			Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");
+		}
+
+		/*private void deleteFromDatabase(Book oldBook)
+		{
+			using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				db.Delete (oldBook);
+			}
+			Console.Out.WriteLine("Book " + oldBook.getTitle() + " deleted from database.");
+		}*/
+
+		public static IEnumerable<Book> QueryValuations (SQLiteConnection db)
+		{
+			Book[] bookArray = db.Query<Book> ("select * from Book").ToArray ();
+			for(int i = 0; i < bookArray.Length; i++)
+			{
+				Console.Out.WriteLine ("Book array " + i + ": " + bookArray [i].getTitle ());
+			}
+			return db.Query<Book> ("select * from Book");
+		}
+
+		public static IList<Book> BookList (SQLiteConnection db)
+		{
+			
+			Book[] bookArray = db.Query<Book> ("select * from Book").ToArray ();
+			IList<Book> newBookList = bookArray;
+			return newBookList;
+		}
+
 		async void AddNewItem (object sender, EventArgs args)
 		{
-			//NOTE: On Android, you MUST pass a Context into the Constructor!
+			// start the barcode scanner
 			var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 			var result = await scanner.Scan();
 			Console.Out.WriteLine ("Barcode: " + result.Text);
 
 			Book newBook = new Book (result.Text);
+			insertToDatabase (newBook);
 
 			dataSource.Objects.Insert (0, newBook);
 
@@ -67,12 +127,15 @@ namespace MasterDetail
 		class DataSource : UITableViewSource
 		{
 			static readonly NSString CellIdentifier = new NSString ("Cell");
-			readonly List<Book> objects = new List<Book> ();
+			readonly List<Book> objects;
 			readonly MasterViewController controller;
+			string _pathToDatabase;
 
-			public DataSource (MasterViewController controller)
+			public DataSource (MasterViewController controller, IList<Book> newObjects, string path)
 			{
 				this.controller = controller;
+				this.objects = new List<Book>(newObjects);
+				this._pathToDatabase = path;
 			}
 
 			public IList<Book> Objects {
@@ -106,13 +169,42 @@ namespace MasterDetail
 				return true;
 			}
 
+			public void deleteFromDatabase(Book oldBook)
+			{
+				using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
+				{
+					db.Delete (oldBook);
+				}
+				Console.Out.WriteLine("Book " + oldBook.getTitle() + " deleted from database.");
+			}
+
+			private void createDatabase()
+			{
+				// Create the database and a table to hold Person information.
+				using (var conn= new SQLite.SQLiteConnection(_pathToDatabase))
+				{
+					conn.CreateTable<Book>();
+				}
+				Console.Out.WriteLine ("Inner class: Database was created");
+			}
+
 			public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
 			{
-				if (editingStyle == UITableViewCellEditingStyle.Delete) {
+				if (editingStyle == UITableViewCellEditingStyle.Delete) 
+				{
 					// Delete the row from the data source.
 					objects.RemoveAt (indexPath.Row);
 					controller.TableView.DeleteRows (new [] { indexPath }, UITableViewRowAnimation.Fade);
-				} else if (editingStyle == UITableViewCellEditingStyle.Insert) {
+
+					// now delete it from the database
+					// begin creating and loading the database attempt
+					//createDatabase ();
+
+					//var db = new SQLite.SQLiteConnection (_pathToDatabase);
+					//deleteFromDatabase (objects [indexPath.Row]);
+				} 
+				else if (editingStyle == UITableViewCellEditingStyle.Insert) 
+				{
 					// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
 				}
 			}

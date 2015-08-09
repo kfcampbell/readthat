@@ -13,17 +13,28 @@ namespace MasterDetail
 	public class Book
 	{
 		// member variables
-		string title;
-		string publisher;
-		string isbn;
-		string summary;
-		string author;
-		string coverstring;
+		public string title { get; set; }
+		public string publisher { get; set; }
+		public string isbn { get; set; }
+		public string summary { get; set; }
+		public string author { get; set; }
+		public string coverstring { get; set; }
+		public DateTime dateadded { get; set; }
+
+		public Book()
+		{
+			// null constructor just for testing
+		}
 
 		public Book (string isbn)
 		{
 			viewInformation (isbn);
 			this.coverstring = "http://covers.openlibrary.org/b/isbn/" + this.isbn+ "-L.jpg";
+
+			// get the date/time the book was added
+			var thisdate = new DateTime ();
+			thisdate = DateTime.Now.ToLocalTime ();
+			this.dateadded = thisdate;
 		}
 
 		private void viewInformation(string resultText)
@@ -74,11 +85,16 @@ namespace MasterDetail
 
 				// assign the member
 				this.isbn = bookInfo["isbn13"].ToString();
-				this.title = bookInfo["title_latin"].ToString();
 				this.publisher = bookInfo["publisher_text"].ToString();
 				this.summary = bookInfo["summary"].ToString();
 				JToken authorName = authorData[0];
 				this.author = authorName["name"].ToString();
+
+				// process the title for correct capitalization
+				//this.title = bookInfo["title_latin"].ToString();
+				string booktitle = bookInfo["title_latin"].ToString();
+				booktitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(booktitle.ToLower());
+				this.title = booktitle;
 
 				// print statements just to test:
 				Console.Out.WriteLine("Title: " + this.title);
@@ -123,6 +139,11 @@ namespace MasterDetail
 		public string getCoverString()
 		{
 			return this.coverstring;
+		}
+
+		public DateTime getDateAdded()
+		{
+			return this.dateadded;
 		}
 	}
 }

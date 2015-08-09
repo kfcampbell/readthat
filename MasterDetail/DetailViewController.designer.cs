@@ -24,6 +24,10 @@ namespace MasterDetail
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel dateAddedLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton summaryButton { get; set; }
 
 		[Outlet]
@@ -39,6 +43,10 @@ namespace MasterDetail
 			if (coverImage != null) {
 				coverImage.Dispose ();
 				coverImage = null;
+			}
+			if (dateAddedLabel != null) {
+				dateAddedLabel.Dispose ();
+				dateAddedLabel = null;
 			}
 			if (summaryButton != null) {
 				summaryButton.Dispose ();

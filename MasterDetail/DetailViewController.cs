@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using CoreGraphics;
 using CoreImage;
+using BigTed;
+
+// amazon link: http://smile.amazon.com/s/ref=nb_ss_gw?url=search-alias%3Daps&field-keywords=9780152049409+&x=0&y=0 sub isbn number
 
 namespace MasterDetail
 {
@@ -70,44 +73,50 @@ namespace MasterDetail
 
 		async void downloadAsync()
 		{
-			webClient = new WebClient ();
-			//An large image url
-			var url = new Uri (DetailItem.getCoverString());
-			byte[] bytes = null;
+			if (DetailItem.getCoverString () != null) {
+				BTProgressHUD.Show ("Retrieving Cover...");
+				BTProgressHUD.
+				webClient = new WebClient ();
+				//An large image url
+				var url = new Uri (DetailItem.getCoverString ());
+				byte[] bytes = null;
 
-			webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
+				webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
 
-			//Start download data using DownloadDataTaskAsync
-			try{
-				bytes = await webClient.DownloadDataTaskAsync(url);
-			}
-			catch(OperationCanceledException){
-				Console.WriteLine ("Task Canceled!");
-				return;
-			}
-			catch(Exception e) {
-				Console.WriteLine (e.ToString());
-				return;
-			}
-			string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			string localFilename = "downloaded.png";
-			string localPath = Path.Combine (documentsPath, localFilename);
+				//Start download data using DownloadDataTaskAsync
+				try {
+					bytes = await webClient.DownloadDataTaskAsync (url);
+				} catch (OperationCanceledException) {
+					Console.WriteLine ("Task Canceled!");
+					return;
+				} catch (Exception e) {
+					Console.WriteLine (e.ToString ());
+					return;
+				}
+				string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+				string localFilename = "downloaded.png";
+				string localPath = Path.Combine (documentsPath, localFilename);
 
-			//Save the image using writeAsync
-			FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-			await fs.WriteAsync (bytes, 0, bytes.Length);
-			fs.Close ();
+				//Save the image using writeAsync
+				FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+				await fs.WriteAsync (bytes, 0, bytes.Length);
+				fs.Close ();
 
-			Console.WriteLine("localPath:"+localPath);
+				Console.WriteLine ("localPath:" + localPath);
 
-			//Resizing image is time costing, using async to avoid blocking the UI thread
-			UIImage image = null;
-			CGSize imageViewSize = coverImage.Frame.Size;
+				//Resizing image is time costing, using async to avoid blocking the UI thread
+				UIImage image = null;
+				CGSize imageViewSize = coverImage.Frame.Size;
 
-			await Task.Run( () => { image = UIImage.FromFile(localPath).Scale(imageViewSize); } );
-			Console.WriteLine ("Loaded!");
+				await Task.Run (() => {
+					image = UIImage.FromFile (localPath).Scale (imageViewSize);
+				});
+				Console.WriteLine ("Loaded!");
 
-			coverImage.Image = image;
+				BTProgressHUD.Dismiss ();
+				coverImage.Image = image;
+			} else
+				Console.Out.WriteLine ("Can't get cover. Cover string == null");
 
 		}
 

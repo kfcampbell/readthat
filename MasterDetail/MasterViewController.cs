@@ -8,6 +8,10 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SQLite;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Drawing;
+using BigTed;
 
 namespace MasterDetail
 {
@@ -103,15 +107,34 @@ namespace MasterDetail
 			// start the barcode scanner
 			var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 			var result = await scanner.Scan();
-			Console.Out.WriteLine ("Barcode: " + result.Text);
 
+			//BTProgressHUD.Show ("Gathering information...");
+
+			// create an object to hold the book.
 			Book newBook = new Book (result.Text);
-			insertToDatabase (newBook);
+			Console.Out.WriteLine ("newbook title: " + newBook.getTitle ());
 
-			dataSource.Objects.Insert (0, newBook);
+			// make sure it's actually a book before adding it.
+			try
+			{
+				if (newBook.getAuthor().Length > 3) 
+				{
+					insertToDatabase (newBook);
+					Console.Out.WriteLine("newbook added");
+					dataSource.Objects.Insert (0, newBook);
 
-			using (var indexPath = NSIndexPath.FromRowSection (0, 0))
-				TableView.InsertRows (new [] { indexPath }, UITableViewRowAnimation.Automatic);
+					using (var indexPath = NSIndexPath.FromRowSection (0, 0))
+						TableView.InsertRows (new [] { indexPath }, UITableViewRowAnimation.Automatic);
+
+				} else
+					Console.Out.WriteLine ("newbook seems to be null");
+			}
+			catch(Exception ex)
+			{
+				Console.Out.WriteLine ("Adding newbook error: " + ex.ToString ());
+			}
+			//BTProgressHUD.Dismiss ();
+
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -171,11 +194,13 @@ namespace MasterDetail
 
 			public void deleteFromDatabase(Book oldBook)
 			{
+				Console.Out.WriteLine("Book " + oldBook.getTitle() + " deleted from database.");
+
 				using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
 				{
 					db.Delete (oldBook);
+					//return Delete
 				}
-				Console.Out.WriteLine("Book " + oldBook.getTitle() + " deleted from database.");
 			}
 
 			private void createDatabase()
@@ -196,12 +221,14 @@ namespace MasterDetail
 					objects.RemoveAt (indexPath.Row);
 					controller.TableView.DeleteRows (new [] { indexPath }, UITableViewRowAnimation.Fade);
 
-					// now delete it from the database
-					// begin creating and loading the database attempt
-					//createDatabase ();
-
-					//var db = new SQLite.SQLiteConnection (_pathToDatabase);
-					//deleteFromDatabase (objects [indexPath.Row]);
+					try
+					{
+						deleteFromDatabase (objects[indexPath.Row]);
+					}
+					catch(Exception ex)
+					{
+						Console.Out.WriteLine ("error deleting book: \n" + ex.ToString ());
+					}
 				} 
 				else if (editingStyle == UITableViewCellEditingStyle.Insert) 
 				{

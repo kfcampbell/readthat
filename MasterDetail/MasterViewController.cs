@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using BigTed;
 
+
 namespace MasterDetail
 {
 	public partial class MasterViewController : UITableViewController
@@ -30,6 +31,7 @@ namespace MasterDetail
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			this.Title = "Book List";
 
 			// begin creating and loading the database attempt
 			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -97,7 +99,7 @@ namespace MasterDetail
 		public static IList<Book> BookList (SQLiteConnection db)
 		{
 			
-			Book[] bookArray = db.Query<Book> ("select * from Book").ToArray ();
+			Book[] bookArray = db.Query<Book> ("select * from Book order by dateAdded desc").ToArray ();
 			IList<Book> newBookList = bookArray;
 			return newBookList;
 		}
@@ -134,6 +136,7 @@ namespace MasterDetail
 				Console.Out.WriteLine ("Adding newbook error: " + ex.ToString ());
 			}
 			//BTProgressHUD.Dismiss ();
+
 
 		}
 
@@ -198,6 +201,7 @@ namespace MasterDetail
 
 				using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
 				{
+					Console.Out.WriteLine ("object deleted: " + oldBook.getDateAdded ());
 					db.Delete (oldBook);
 					//return Delete
 				}
@@ -217,18 +221,20 @@ namespace MasterDetail
 			{
 				if (editingStyle == UITableViewCellEditingStyle.Delete) 
 				{
-					// Delete the row from the data source.
-					objects.RemoveAt (indexPath.Row);
-					controller.TableView.DeleteRows (new [] { indexPath }, UITableViewRowAnimation.Fade);
-
+					//Console.Out.WriteLine ("object to delete: " + objects [indexPath.Row].getDateAdded ());
 					try
 					{
+						Console.Out.WriteLine("index: " + (indexPath.Row));
 						deleteFromDatabase (objects[indexPath.Row]);
 					}
 					catch(Exception ex)
 					{
 						Console.Out.WriteLine ("error deleting book: \n" + ex.ToString ());
 					}
+
+					// Delete the row from the data source.
+					objects.RemoveAt (indexPath.Row);
+					controller.TableView.DeleteRows (new [] { indexPath }, UITableViewRowAnimation.Fade);
 				} 
 				else if (editingStyle == UITableViewCellEditingStyle.Insert) 
 				{

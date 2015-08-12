@@ -26,17 +26,33 @@ namespace MasterDetail
 		{
 			if (DetailItem != newDetailItem) {
 				DetailItem = newDetailItem;
+
+				this.Title = DetailItem.getTitle ();
 				
 				// Update the view
 				ConfigureView ();
 			}
 		}
 
+		/*public void ViewWillDisappear()
+		{
+			base.ViewDidDisappear ();
+			try
+			{
+				BTProgressHUD.Dismiss();
+			}
+			catch(Exception ex)
+			{
+				Console.Out.WriteLine ("Error attempting to hide BTProgressHud");
+			}
+		}*/
+
 		void ConfigureView ()
 		{
 			// Update the user interface for the detail item
 			if (IsViewLoaded && DetailItem != null)
 			{
+				this.Title = DetailItem.getTitle ();
 				Console.Out.WriteLine ("author detail: " + DetailItem.getAuthor ());
 
 				downloadAsync ();
@@ -75,7 +91,6 @@ namespace MasterDetail
 		{
 			if (DetailItem.getCoverString () != null) {
 				BTProgressHUD.Show ("Retrieving Cover...");
-				BTProgressHUD.
 				webClient = new WebClient ();
 				//An large image url
 				var url = new Uri (DetailItem.getCoverString ());
@@ -146,6 +161,11 @@ namespace MasterDetail
 		{
 			base.DidReceiveMemoryWarning ();
 			// Release any cached data, images, etc that aren't in use.
+		}
+
+		public void OnResignActivation(UIApplication application)
+		{
+			Console.WriteLine("OnResignActivation called, App moving to inactive state.");
 		}
 	}
 }

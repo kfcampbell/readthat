@@ -104,38 +104,69 @@ namespace MasterDetail
 			return newBookList;
 		}
 
-		async void AddNewItem (object sender, EventArgs args)
+		public void AddNewItem (object sender, EventArgs args)
+		{
+			// Create a new Alert Controller
+			UIAlertController actionSheetAlert = UIAlertController
+				.Create("Add A New Item", "Select an option from below:", UIAlertControllerStyle.ActionSheet);
+
+			// Add Actions
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Scan an ISBN",UIAlertActionStyle.Default, (action) => scanIsbn()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Enter information manually",UIAlertActionStyle.Default, (action) => enterManually()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Cancel",UIAlertActionStyle.Default, (action) => Console.WriteLine ("Cancel button pressed.")));
+
+
+			// Display the alert
+			this.PresentViewController(actionSheetAlert,true,null);
+
+		}
+
+		public void enterManually()
+		{
+			Console.Out.WriteLine ("Enter manually pressed.");
+		}
+
+		async void scanIsbn()
 		{
 			// start the barcode scanner
 			var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 			var result = await scanner.Scan();
 
-			//BTProgressHUD.Show ("Gathering information...");
-
-			// create an object to hold the book.
-			Book newBook = new Book (result.Text);
-			Console.Out.WriteLine ("newbook title: " + newBook.getTitle ());
-
-			// make sure it's actually a book before adding it.
 			try
 			{
-				if (newBook.getAuthor().Length > 3) 
+				// create an object to hold the book.
+				Book newBook = new Book (result.Text);
+				Console.Out.WriteLine ("newbook title: " + newBook.getTitle ());
+
+				// make sure it's actually a book before adding it.
+				try
 				{
-					insertToDatabase (newBook);
-					Console.Out.WriteLine("newbook added");
-					dataSource.Objects.Insert (0, newBook);
+					if (newBook.getAuthor().Length > 3) 
+					{
+						insertToDatabase (newBook);
+						Console.Out.WriteLine("newbook added");
+						dataSource.Objects.Insert (0, newBook);
 
-					using (var indexPath = NSIndexPath.FromRowSection (0, 0))
-						TableView.InsertRows (new [] { indexPath }, UITableViewRowAnimation.Automatic);
+						using (var indexPath = NSIndexPath.FromRowSection (0, 0))
+							TableView.InsertRows (new [] { indexPath }, UITableViewRowAnimation.Automatic);
 
-				} else
-					Console.Out.WriteLine ("newbook seems to be null");
+					} else
+						Console.Out.WriteLine ("newbook seems to be null");
+				}
+				catch(Exception ex)
+				{
+					Console.Out.WriteLine ("Adding newbook error: " + ex.ToString ());
+				}
 			}
 			catch(Exception ex)
 			{
-				Console.Out.WriteLine ("Adding newbook error: " + ex.ToString ());
+				Console.Out.WriteLine ("scanning was probably canceled.\n" + ex.ToString ());
 			}
-			//BTProgressHUD.Dismiss ();
 
 
 		}

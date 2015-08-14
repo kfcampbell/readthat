@@ -129,6 +129,8 @@ namespace MasterDetail
 		public void enterManually()
 		{
 			Console.Out.WriteLine ("Enter manually pressed.");
+			UIStoryboardSegue man = new UIStoryboardSegue ("manualSegue", this, new UIViewController());
+			PerformSegue ("manualSegue", this);
 		}
 
 		async void scanIsbn()
@@ -173,11 +175,17 @@ namespace MasterDetail
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
-			if (segue.Identifier == "showDetail") {
+			if (segue.Identifier == "showDetail") 
+			{
 				var indexPath = TableView.IndexPathForSelectedRow;
 				var item = dataSource.Objects [indexPath.Row];
 
 				((DetailViewController)segue.DestinationViewController).SetDetailItem (item);
+			}
+			else if(segue.Identifier == "manualSegue")
+			{
+				//((ManualController)segue.DestinationViewController).setTestItem (5);
+				Console.Out.WriteLine ("manual segue entered");
 			}
 		}
 

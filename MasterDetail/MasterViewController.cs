@@ -129,7 +129,6 @@ namespace MasterDetail
 		public void enterManually()
 		{
 			Console.Out.WriteLine ("Enter manually pressed.");
-			UIStoryboardSegue man = new UIStoryboardSegue ("manualSegue", this, new UIViewController());
 			PerformSegue ("manualSegue", this);
 		}
 
@@ -169,8 +168,6 @@ namespace MasterDetail
 			{
 				Console.Out.WriteLine ("scanning was probably canceled.\n" + ex.ToString ());
 			}
-
-
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)

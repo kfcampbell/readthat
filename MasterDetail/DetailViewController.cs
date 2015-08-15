@@ -8,6 +8,7 @@ using System.Threading;
 using CoreGraphics;
 using CoreImage;
 using BigTed;
+using FFImageLoading;
 
 // amazon link: http://smile.amazon.com/s/ref=nb_ss_gw?url=search-alias%3Daps&field-keywords=9780152049409+&x=0&y=0 sub isbn number
 
@@ -63,6 +64,16 @@ namespace MasterDetail
 
 				summaryButton.TouchUpInside += (object sender, EventArgs e) => 
 				{
+					// hide Cover Downloading pop-up.
+					try
+					{
+						BTProgressHUD.Dismiss ();
+					}
+					catch(Exception ex)
+					{
+						Console.Out.WriteLine ("Error hiding BTProgressHUD \n" + ex.ToString ());
+					}
+
 					if(DetailItem.getSummary() != String.Empty)
 					{
 						var alert = UIAlertController.Create("Book Summary", DetailItem.getSummary(), UIAlertControllerStyle.Alert);
@@ -131,8 +142,35 @@ namespace MasterDetail
 				BTProgressHUD.Dismiss ();
 				coverImage.Image = image;
 			} else
+			{
 				Console.Out.WriteLine ("Can't get cover. Cover string == null");
+				Console.Out.WriteLine ("Going to attempt to display image from file.");
 
+				//coverImage.TranslatesAutoresizingMaskIntoConstraints = false;
+				//coverImage.Image = UIImage.FromBundle ("/var/mobile/Containers/Data/Application/828D8F48-D213-47A5-BE5C-3E05B32F1E80/Documents/Photo.jpg");
+
+				string path = "/var/mobile/Containers/Data/Application/828D8F48-D213-47A5-BE5C-3E05B32F1E80/Documents/Photo.png";
+
+				try
+				{
+					await ImageService.LoadFile(path)
+						.Success(() =>
+							{
+								Console.Out.WriteLine("Image loaded success");
+							})
+						.Error(exception =>
+							{
+								Console.Out.WriteLine("Image loaded failure");
+							})
+						.IntoAsync(coverImage);
+
+					Console.Out.WriteLine ("setting image from file completed");
+				}
+				catch(Exception ex)
+				{
+					Console.Out.WriteLine ("image loaded exception \n" + ex.ToString ());
+				}
+			}
 		}
 
 		void HandleDownloadProgressChanged (object sender, DownloadProgressChangedEventArgs e)

@@ -33,6 +33,16 @@ namespace MasterDetail
 			Console.Out.WriteLine ("view will appear entered.");
 			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
 
+			// attempt to hide Cover Downloading pop-up.
+			try
+			{
+				BTProgressHUD.Dismiss ();
+			}
+			catch(Exception ex)
+			{
+				Console.Out.WriteLine ("Error hiding BTProgressHUD \n" + ex.ToString ());
+			}
+
 			// begin creating and loading the database attempt
 			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			_pathToDatabase = Path.Combine(documents, _databaseName);
@@ -133,6 +143,25 @@ namespace MasterDetail
 			return newBookList;
 		}
 
+		public void takePhoto()
+		{
+			Camera.TakePicture (this, (obj) =>
+				{
+				var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
+				var documentsDirectory = Environment.GetFolderPath
+					(Environment.SpecialFolder.Personal);
+					string pngFilename = System.IO.Path.Combine (documentsDirectory, "Photo.png"); // hardcoded filename, overwritten each time
+				NSData imgData = photo.AsPNG();
+				NSError err = null;
+					if (imgData.Save(pngFilename, false, out err)) 
+					{
+						Console.WriteLine("saved as " + pngFilename);
+				} else {
+						Console.WriteLine("NOT saved as " + pngFilename + " because" + err.LocalizedDescription);
+				}
+			});
+		}
+
 		public void AddNewItem (object sender, EventArgs args)
 		{
 			// Create a new Alert Controller
@@ -145,6 +174,9 @@ namespace MasterDetail
 
 			actionSheetAlert.AddAction(UIAlertAction
 				.Create("Enter information manually",UIAlertActionStyle.Default, (action) => enterManually()));
+
+			actionSheetAlert.AddAction (UIAlertAction
+				.Create ("Take a Photo", UIAlertActionStyle.Default, (action) => takePhoto ()));
 
 			actionSheetAlert.AddAction(UIAlertAction
 				.Create("Cancel",UIAlertActionStyle.Default, (action) => Console.WriteLine ("Cancel button pressed.")));

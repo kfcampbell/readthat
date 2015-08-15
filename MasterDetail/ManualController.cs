@@ -60,7 +60,7 @@ namespace MasterDetail
 			Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");
 
 			// ui alert to let the user know
-			var alert = UIAlertController.Create("Book Added!", "Restart the app to see the book in your database.", UIAlertControllerStyle.Alert);
+			var alert = UIAlertController.Create("Book Added!", "Hit the back button to see the book in your Book List.", UIAlertControllerStyle.Alert);
 
 			// add buttons
 			alert.AddAction(UIAlertAction.Create("Okay", UIAlertActionStyle.Default, null));
@@ -79,6 +79,13 @@ namespace MasterDetail
 			// dismiss the keyboard if anywhere in the view is tapped (except another textview)
 			var g = new UITapGestureRecognizer(() => View.EndEditing(true));
 			View.AddGestureRecognizer(g);
+
+			// experiment with setting return key types
+			titleField.ReturnKeyType = UIReturnKeyType.Next;
+			authorField.ReturnKeyType = UIReturnKeyType.Next;
+			pubField.ReturnKeyType = UIReturnKeyType.Next;
+			summaryField.ReturnKeyType = UIReturnKeyType.Next;
+			isbnField.ReturnKeyType = UIReturnKeyType.Done;
 
 			// advance the keyboard to the next textview
 			this.titleField.ShouldReturn += (titleField) => 

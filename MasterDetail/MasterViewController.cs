@@ -32,6 +32,24 @@ namespace MasterDetail
 		{
 			Console.Out.WriteLine ("view will appear entered.");
 			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = BookList (db);
+
+			// Perform any additional setup after loading the view, typically from a nib.
+			NavigationItem.LeftBarButtonItem = EditButtonItem;
+
+			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
+			addButton.AccessibilityLabel = "addButton";
+			NavigationItem.RightBarButtonItem = addButton;
+
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
 		}
 
 		public override void ViewDidLoad ()
@@ -62,6 +80,11 @@ namespace MasterDetail
 		{
 			base.DidReceiveMemoryWarning ();
 			// Release any cached data, images, etc that aren't in use.
+		}
+
+		private void ActionRefresh()
+		{
+			TableView.ReloadData ();
 		}
 
 		private void createDatabase()

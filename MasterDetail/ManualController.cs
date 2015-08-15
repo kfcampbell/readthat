@@ -68,6 +68,50 @@ namespace MasterDetail
 			// actually show the thing
 			PresentViewController(alert, true, null);
 		}
+
+
+
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad ();
+			Console.Out.WriteLine ("Manual controller viewdidload entered.");
+
+			// dismiss the keyboard if anywhere in the view is tapped (except another textview)
+			var g = new UITapGestureRecognizer(() => View.EndEditing(true));
+			View.AddGestureRecognizer(g);
+
+			// advance the keyboard to the next textview
+			this.titleField.ShouldReturn += (titleField) => 
+			{
+				this.authorField.BecomeFirstResponder ();
+				return true;
+			};
+
+			this.authorField.ShouldReturn += (authorField) => 
+			{
+				this.pubField.BecomeFirstResponder ();
+				return true;
+			};
+
+			this.pubField.ShouldReturn += (pubField) => 
+			{
+				this.summaryField.BecomeFirstResponder();
+				return true;
+			};
+
+			this.summaryField.ShouldReturn += (summaryField) => 
+			{
+				this.isbnField.BecomeFirstResponder ();
+				return true;
+			};
+				
+			// dismiss the keyboard once the last field is filled out
+			this.isbnField.ShouldReturn += (isbnField) => 
+			{
+				this.isbnField.ResignFirstResponder();
+				return true;
+			};
+		}
 	}
 
 }

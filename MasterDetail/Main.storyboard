@@ -184,13 +184,13 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <constraints>
-                                                        <constraint id="597" firstAttribute="width" constant="415"/>
+                                                        <constraint id="719" firstAttribute="width" constant="464"/>
                                                     </constraints>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint id="595" firstItem="572" firstAttribute="trailing" secondItem="593" secondAttribute="trailing" constant="70"/>
-                                                <constraint id="596" constant="6" firstItem="572" firstAttribute="bottom" secondItem="593" secondAttribute="bottom"/>
+                                                <constraint id="717" constant="66" firstItem="593" firstAttribute="leading" secondItem="572" secondAttribute="leading"/>
+                                                <constraint id="718" constant="6" firstItem="572" firstAttribute="bottom" secondItem="593" secondAttribute="bottom"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

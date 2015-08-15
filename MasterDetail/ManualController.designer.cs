@@ -32,7 +32,7 @@ namespace MasterDetail
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel summaryField { get; set; }
+		UITextField summaryField { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

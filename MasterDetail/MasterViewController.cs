@@ -28,6 +28,12 @@ namespace MasterDetail
 			Title = NSBundle.MainBundle.LocalizedString ("Master", "Book List");
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			Console.Out.WriteLine ("view will appear entered.");
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();

@@ -58,6 +58,15 @@ namespace MasterDetail
 				db.Insert(theBook);
 			}
 			Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");
+
+			// ui alert to let the user know
+			var alert = UIAlertController.Create("Book Added!", "Restart the app to see the book in your database.", UIAlertControllerStyle.Alert);
+
+			// add buttons
+			alert.AddAction(UIAlertAction.Create("Okay", UIAlertActionStyle.Default, null));
+
+			// actually show the thing
+			PresentViewController(alert, true, null);
 		}
 	}
 

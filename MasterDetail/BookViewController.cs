@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.IO;
 using System.Text;
@@ -10,44 +10,36 @@ using CoreImage;
 using BigTed;
 using FFImageLoading;
 
-// amazon link: http://smile.amazon.com/s/ref=nb_ss_gw?url=search-alias%3Daps&field-keywords=9780152049409+&x=0&y=0 sub isbn number
-
 namespace MasterDetail
 {
-	public partial class DetailViewController : UIViewController
+	partial class BookViewController : UITableViewController
 	{
 		public Book DetailItem { get; set; }
 		public WebClient webClient;
 
-		public DetailViewController (IntPtr handle) : base (handle)
+		public BookViewController (IntPtr handle) : base (handle)
 		{
 		}
 
+		partial void editButton_TouchUpInside (UIButton sender)
+		{
+			Console.Out.WriteLine("Book View Controller Edit Button Pressed");
+		}
+
+		// called every time the class is instantiated.
 		public void SetDetailItem (Book newDetailItem)
 		{
 			if (DetailItem != newDetailItem) {
 				DetailItem = newDetailItem;
 
 				this.Title = DetailItem.getTitle ();
-				
+
 				// Update the view
 				ConfigureView ();
 			}
 		}
 
-		/*public void ViewWillDisappear()
-		{
-			base.ViewDidDisappear ();
-			try
-			{
-				BTProgressHUD.Dismiss();
-			}
-			catch(Exception ex)
-			{
-				Console.Out.WriteLine ("Error attempting to hide BTProgressHud");
-			}
-		}*/
-
+		// configure the view. needs edits to reflect new table view controller
 		void ConfigureView ()
 		{
 			// Update the user interface for the detail item
@@ -60,44 +52,13 @@ namespace MasterDetail
 				titleLabel.Text = DetailItem.getTitle ();
 				authorLabel.Text = DetailItem.getAuthor ();
 				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
-				summaryButton.Hidden = false;
+				publisherLabel.Text = DetailItem.getPublisher ();
 
-				summaryButton.TouchUpInside += (object sender, EventArgs e) => 
-				{
-					// hide Cover Downloading pop-up.
-					try
-					{
-						BTProgressHUD.Dismiss ();
-					}
-					catch(Exception ex)
-					{
-						Console.Out.WriteLine ("Error hiding BTProgressHUD \n" + ex.ToString ());
-					}
-
-					if(DetailItem.getSummary() != String.Empty)
-					{
-						var alert = UIAlertController.Create("Book Summary", DetailItem.getSummary(), UIAlertControllerStyle.Alert);
-
-						// add buttons
-						alert.AddAction(UIAlertAction.Create("Looks Interesting", UIAlertActionStyle.Default, null));
-
-						// actually show the thing
-						PresentViewController(alert, true, null);
-					}
-					else
-					{
-						var alert = UIAlertController.Create("Book Summary", "The summary looks empty. Sorry about that.", UIAlertControllerStyle.Alert);
-
-						// add buttons
-						alert.AddAction(UIAlertAction.Create("Aww man.", UIAlertActionStyle.Default, null));
-
-						// actually show the thing
-						PresentViewController(alert, true, null);
-					}
-				};
+				summaryLabel.Text = DetailItem.getSummary ();
 			}
 		}
 
+		// framework for downloading cover image. eventually store it and don't do it every time.
 		async void downloadAsync()
 		{
 			if (DetailItem.getCoverString () != null) {
@@ -187,25 +148,5 @@ namespace MasterDetail
 
 			webClient.DownloadProgressChanged -= HandleDownloadProgressChanged;
 		}
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-			//summaryButton.Hidden = true;
-			// Perform any additional setup after loading the view, typically from a nib.
-			ConfigureView ();
-		}
-
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
-		}
-
-		public void OnResignActivation(UIApplication application)
-		{
-			Console.WriteLine("OnResignActivation called, App moving to inactive state.");
-		}
 	}
 }
-
-

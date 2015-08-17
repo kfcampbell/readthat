@@ -125,6 +125,10 @@
       <DependentUpon>ManualController.cs</DependentUpon>
     </Compile>
     <Compile Include="Camera.cs" />
+    <Compile Include="BookViewController.cs" />
+    <Compile Include="BookViewController.designer.cs">
+      <DependentUpon>BookViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

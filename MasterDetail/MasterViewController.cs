@@ -238,7 +238,10 @@ namespace MasterDetail
 				var indexPath = TableView.IndexPathForSelectedRow;
 				var item = dataSource.Objects [indexPath.Row];
 
-				((DetailViewController)segue.DestinationViewController).SetDetailItem (item);
+				//((DetailViewController)segue.DestinationViewController).SetDetailItem (item);
+
+				// test of doing the book view controller instead of the detail view controller.
+				((BookViewController)segue.DestinationViewController).SetDetailItem (item);
 			}
 			else if(segue.Identifier == "manualSegue")
 			{

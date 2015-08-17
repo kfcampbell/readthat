@@ -36,7 +36,7 @@ namespace MasterDetail
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel summaryLabel { get; set; }
+		UIButton summaryButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -45,6 +45,10 @@ namespace MasterDetail
 		[Action ("editButton_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void editButton_TouchUpInside (UIButton sender);
+
+		[Action ("summaryButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void summaryButton_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -68,9 +72,9 @@ namespace MasterDetail
 				publisherLabel.Dispose ();
 				publisherLabel = null;
 			}
-			if (summaryLabel != null) {
-				summaryLabel.Dispose ();
-				summaryLabel = null;
+			if (summaryButton != null) {
+				summaryButton.Dispose ();
+				summaryButton = null;
 			}
 			if (titleLabel != null) {
 				titleLabel.Dispose ();

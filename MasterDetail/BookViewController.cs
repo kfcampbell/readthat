@@ -19,14 +19,35 @@ namespace MasterDetail
 
 		public BookViewController (IntPtr handle) : base (handle)
 		{
-			Console.Out.WriteLine ("Book view controller entered");
-			/*SetDetailItem (DetailItem);
-			Console.Out.WriteLine ("Book view controller: " + DetailItem.getTitle () + ", " + DetailItem.getAuthor ());*/
 		}
 
 		partial void editButton_TouchUpInside (UIButton sender)
 		{
 			Console.Out.WriteLine("Book View Controller Edit Button Pressed");
+		}
+
+		partial void summaryButton_TouchUpInside (UIButton sender)
+		{
+			string summaryString;
+			string acceptString;
+
+			if(DetailItem.getSummary() != String.Empty)
+			{
+				summaryString = DetailItem.getSummary();
+				acceptString = "Looks Interesting";
+			}
+			else
+			{
+				summaryString = "The book's summary looks empty. Sorry about that.";
+				acceptString = "Aww man";
+			}
+			var alert = UIAlertController.Create("Book Summary", summaryString, UIAlertControllerStyle.Alert);
+
+			// add buttons
+			alert.AddAction(UIAlertAction.Create(acceptString, UIAlertActionStyle.Default, null));
+
+			// actually show the thing
+			PresentViewController(alert, true, null);
 		}
 
 		// called every time the class is instantiated.
@@ -58,7 +79,6 @@ namespace MasterDetail
 				authorLabel.Text = DetailItem.getAuthor ();
 				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
 				publisherLabel.Text = DetailItem.getPublisher ();
-				summaryLabel.Text = DetailItem.getSummary ();
 
 				// attempt to download the cover photo
 				downloadAsync ();

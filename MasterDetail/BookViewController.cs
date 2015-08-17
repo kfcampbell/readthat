@@ -19,6 +19,9 @@ namespace MasterDetail
 
 		public BookViewController (IntPtr handle) : base (handle)
 		{
+			Console.Out.WriteLine ("Book view controller entered");
+			/*SetDetailItem (DetailItem);
+			Console.Out.WriteLine ("Book view controller: " + DetailItem.getTitle () + ", " + DetailItem.getAuthor ());*/
 		}
 
 		partial void editButton_TouchUpInside (UIButton sender)
@@ -29,7 +32,9 @@ namespace MasterDetail
 		// called every time the class is instantiated.
 		public void SetDetailItem (Book newDetailItem)
 		{
-			if (DetailItem != newDetailItem) {
+
+			if (DetailItem != newDetailItem) 
+			{
 				DetailItem = newDetailItem;
 
 				this.Title = DetailItem.getTitle ();
@@ -39,22 +44,26 @@ namespace MasterDetail
 			}
 		}
 
-		// configure the view. needs edits to reflect new table view controller
-		void ConfigureView ()
+		// get all the data loaded into correct spots.
+		async void ConfigureView ()
 		{
+			// short delay to make sure view is loaded. experiment with number of milliseconds
+			await Task.Delay (100);
+
 			// Update the user interface for the detail item
 			if (IsViewLoaded && DetailItem != null)
 			{
 				this.Title = DetailItem.getTitle ();
-				Console.Out.WriteLine ("author detail: " + DetailItem.getAuthor ());
-
-				downloadAsync ();
 				titleLabel.Text = DetailItem.getTitle ();
 				authorLabel.Text = DetailItem.getAuthor ();
 				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
 				publisherLabel.Text = DetailItem.getPublisher ();
-
 				summaryLabel.Text = DetailItem.getSummary ();
+
+				// attempt to download the cover photo
+				downloadAsync ();
+
+				Console.Out.WriteLine ("View updates done.");
 			}
 		}
 

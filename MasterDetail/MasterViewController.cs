@@ -242,6 +242,7 @@ namespace MasterDetail
 
 				// test of doing the book view controller instead of the detail view controller.
 				((BookViewController)segue.DestinationViewController).SetDetailItem (item);
+				Console.Out.WriteLine ("Book view controller book: " + item.getTitle ());
 			}
 			else if(segue.Identifier == "manualSegue")
 			{

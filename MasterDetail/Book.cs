@@ -30,11 +30,6 @@ namespace MasterDetail
 			// null constructor just for testing
 		}
 
-		/*private Book(string isbn)
-		{
-			setInformation (isbn);
-		}*/
-
 		public Book (string isbn)
 		{
 			if(viewInformation (isbn))

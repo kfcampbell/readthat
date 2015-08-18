@@ -238,9 +238,7 @@ namespace MasterDetail
 				var indexPath = TableView.IndexPathForSelectedRow;
 				var item = dataSource.Objects [indexPath.Row];
 
-				//((DetailViewController)segue.DestinationViewController).SetDetailItem (item);
-
-				// test of doing the book view controller instead of the detail view controller.
+				// load the book view controller with the selected book.
 				((BookViewController)segue.DestinationViewController).SetDetailItem (item);
 				Console.Out.WriteLine ("Book view controller book: " + item.getTitle ());
 			}

@@ -9,14 +9,48 @@ namespace MasterDetail
 {
 	partial class ManualController : UITableViewController
 	{
-		Book newBook;
+		public Book newBook { get; set; }
 		private string _pathToDatabase;
-		private string _databaseName = "book_database.db";
+		private const string _databaseName = "book_database.db";
 
 		public ManualController (IntPtr handle) : base (handle)
 		{
-			// handle the creation and addition of a new book
-			// also needs database operation here
+		}
+
+		public void SetBookItem (Book newDetailItem)
+		{
+
+			if (newBook != newDetailItem) 
+			{
+				newBook = newDetailItem;
+
+				// attempt to set it manually
+				newBook.title = newDetailItem.getTitle ();
+				newBook.author = newDetailItem.getAuthor ();
+				newBook.publisher = newDetailItem.getPublisher ();
+				newBook.summary = newDetailItem.getSummary ();
+				newBook.isbn = newDetailItem.getIsbn ();
+
+				Console.Out.WriteLine ("Set Book Item entered: " + newBook.getTitle());
+			}
+		}
+
+		private void ConfigureView()
+		{
+			Console.Out.WriteLine ("Configure view manual controller entered");
+			try
+			{
+				Console.Out.WriteLine("newbook title: " + newBook.getTitle());
+				titleField.Text = newBook.getTitle();
+				authorField.Text = newBook.getAuthor ();
+				pubField.Text = newBook.getPublisher ();
+				summaryField.Text = newBook.getSummary ();
+				isbnField.Text = newBook.getIsbn ();
+			}
+			catch(Exception ex)
+			{
+				Console.Out.WriteLine ("Error populating fields: " + ex.ToString ());
+			}
 		}
 
 		partial void addButton_TouchUpInside (UIButton sender)
@@ -43,6 +77,7 @@ namespace MasterDetail
 			if(isbnText != string.Empty)
 			{
 				newBook.isbn = isbnText;
+				newBook.coverstring = "http://covers.openlibrary.org/b/isbn/" + isbnText + "-L.jpg";
 			}
 
 			insertToDatabase(newBook);
@@ -69,12 +104,19 @@ namespace MasterDetail
 			PresentViewController(alert, true, null);
 		}
 
-
-
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad ();
 			Console.Out.WriteLine ("Manual controller viewdidload entered.");
+
+			try
+			{
+				ConfigureView();
+			}
+			catch(Exception ex)
+			{
+				Console.Out.WriteLine ("Configure View error (manual): " + ex.ToString ());
+			}
 
 			// dismiss the keyboard if anywhere in the view is tapped (except another textview)
 			var g = new UITapGestureRecognizer(() => View.EndEditing(true));

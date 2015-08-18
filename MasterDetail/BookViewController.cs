@@ -9,6 +9,7 @@ using CoreGraphics;
 using CoreImage;
 using BigTed;
 using FFImageLoading;
+using Foundation;
 
 namespace MasterDetail
 {
@@ -84,6 +85,19 @@ namespace MasterDetail
 				downloadAsync ();
 
 				Console.Out.WriteLine ("View updates done.");
+			}
+		}
+
+		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
+		{
+			if (segue.Identifier == "editBook") 
+			{
+				Console.Out.WriteLine ("Edit book segue entered.");
+
+				// attempt to set new book
+				//ManualController.newBook = DetailItem;
+				((ManualController)segue.DestinationViewController).SetBookItem (DetailItem);
+				Console.Out.WriteLine ("edit book detail set: " + DetailItem.getTitle ());
 			}
 		}
 

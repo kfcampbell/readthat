@@ -12,6 +12,7 @@ namespace MasterDetail
 		public Book newBook { get; set; }
 		private string _pathToDatabase;
 		private const string _databaseName = "book_database.db";
+		private DateTime timeAdded;
 
 		public ManualController (IntPtr handle) : base (handle)
 		{
@@ -20,8 +21,7 @@ namespace MasterDetail
 		public void SetBookItem (Book newDetailItem)
 		{
 
-			if (newBook != newDetailItem) 
-			{
+			if (newBook != newDetailItem) {
 				newBook = newDetailItem;
 
 				// attempt to set it manually
@@ -30,8 +30,11 @@ namespace MasterDetail
 				newBook.publisher = newDetailItem.getPublisher ();
 				newBook.summary = newDetailItem.getSummary ();
 				newBook.isbn = newDetailItem.getIsbn ();
+				newBook.dateadded = newDetailItem.getDateAdded ();
+				timeAdded = newDetailItem.getDateAdded ();
+				Console.Out.WriteLine ("Time added: " + timeAdded.ToString ());
 
-				Console.Out.WriteLine ("Set Book Item entered: " + newBook.getTitle());
+				Console.Out.WriteLine ("Set Book Item entered: " + newBook.getTitle ());
 			}
 		}
 
@@ -71,8 +74,17 @@ namespace MasterDetail
 			newBook.publisher = pubText;
 			newBook.summary = summaryText;
 			newBook.coverstring = null;
-			var thisdate = DateTime.Now.ToLocalTime ();
-			newBook.dateadded = thisdate;
+
+			// this is how to tell if this class was entered from BookViewController or the UI Alert Controller
+			if(timeAdded == new DateTime())
+			{
+				var thisdate = DateTime.Now.ToLocalTime ();
+				newBook.dateadded = thisdate;
+			}
+			else
+			{
+				newBook.dateadded = timeAdded;
+			}
 
 			if(isbnText != string.Empty)
 			{
@@ -90,7 +102,9 @@ namespace MasterDetail
 
 			using (var db = new SQLite.SQLiteConnection(_pathToDatabase ))
 			{
-				db.Insert(theBook);
+				//db.Insert(theBook);
+				//db.Update (theBook);
+				db.InsertOrReplace (theBook);
 			}
 			Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");
 

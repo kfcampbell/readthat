@@ -62,17 +62,45 @@ namespace MasterDetail
 				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
 				summaryButton.Hidden = false;
 
+				/*summaryButton.TouchUpInside += (object sender, EventArgs e) => 
+				{
+					// hide Cover Downloading pop-up.
+					BTProgressHUD.Dismiss();
+
+					if(DetailItem.getSummary() != String.Empty)
+					{
+						var alert = UIAlertController.Create("Book Summary", DetailItem.getSummary(), UIAlertControllerStyle.Alert);
+
+						// add buttons
+						alert.AddAction(UIAlertAction.Create("Looks Interesting", UIAlertActionStyle.Default, null));
+
+						// actually show the thing
+						PresentViewController(alert, true, null);
+					}
+					else
+					{
+						var alert = UIAlertController.Create("Book Summary", "The summary looks empty. Sorry about that.", UIAlertControllerStyle.Alert);
+
+						// add buttons
+						alert.AddAction(UIAlertAction.Create("Aww man.", UIAlertActionStyle.Default, null));
+
+						// actually show the thing
+						PresentViewController(alert, true, null);
+					}
+				};*/
+			}
+		}
+
+		async void downloadAsync()
+		{
+			if (DetailItem.getCoverString () != null) {
+				BTProgressHUD.Show ("Retrieving Cover...");
+
+				// attempt to hide image downloading thing
 				summaryButton.TouchUpInside += (object sender, EventArgs e) => 
 				{
 					// hide Cover Downloading pop-up.
-					try
-					{
-						BTProgressHUD.Dismiss ();
-					}
-					catch(Exception ex)
-					{
-						Console.Out.WriteLine ("Error hiding BTProgressHUD \n" + ex.ToString ());
-					}
+					BTProgressHUD.Dismiss();
 
 					if(DetailItem.getSummary() != String.Empty)
 					{
@@ -95,13 +123,7 @@ namespace MasterDetail
 						PresentViewController(alert, true, null);
 					}
 				};
-			}
-		}
 
-		async void downloadAsync()
-		{
-			if (DetailItem.getCoverString () != null) {
-				BTProgressHUD.Show ("Retrieving Cover...");
 				webClient = new WebClient ();
 				//An large image url
 				var url = new Uri (DetailItem.getCoverString ());

@@ -172,7 +172,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="593" clearButtonMode="always">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="593">
                                                     <rect key="frame" x="23" y="8" width="554" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -513,10 +513,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1522">
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1522">
                                                     <rect key="frame" x="216" y="7" width="168" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="168" id="Oax-bB-ZHU"/>
+                                                        <constraint firstAttribute="width" constant="168" id="b67-Ce-a5s"/>
                                                     </constraints>
                                                     <state key="normal" title="Edit This Entry">
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -525,6 +526,12 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="Oax-bB-ZHU"/>
+                                                            <exclude reference="b67-Ce-a5s"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="b67-Ce-a5s"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=regular">
@@ -534,18 +541,28 @@
                                                     </variation>
                                                     <connections>
                                                         <action selector="editButton_TouchUpInside:" destination="1416" eventType="touchUpInside" id="1693"/>
-                                                        <segue id="1801" destination="490" kind="show" identifier="editBook"/>
+                                                        <segue destination="490" kind="show" identifier="editBook" id="1801"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="1522" firstAttribute="centerX" secondItem="1511" secondAttribute="centerX" id="Bjk-Lp-UIt"/>
+                                                <constraint firstItem="1522" firstAttribute="top" secondItem="1511" secondAttribute="topMargin" constant="-1" id="TbN-Pl-xd2"/>
                                                 <constraint firstItem="1522" firstAttribute="top" secondItem="1511" secondAttribute="topMargin" constant="-1" id="brO-BK-4zD"/>
                                                 <constraint firstItem="1522" firstAttribute="centerX" secondItem="1511" secondAttribute="centerX" id="yeN-44-0Yy"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="Bjk-Lp-UIt"/>
+                                                    <exclude reference="TbN-Pl-xd2"/>
                                                     <exclude reference="brO-BK-4zD"/>
                                                     <exclude reference="yeN-44-0Yy"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="heightClass=regular">
+                                                <mask key="constraints">
+                                                    <include reference="Bjk-Lp-UIt"/>
+                                                    <include reference="TbN-Pl-xd2"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=regular">
@@ -579,4 +596,7 @@
             <point key="canvasLocation" x="1458" y="604"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="1801"/>
+    </inferredMetricsTieBreakers>
 </document>

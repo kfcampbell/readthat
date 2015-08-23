@@ -350,7 +350,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="233.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1516" image="unavailable.png">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1516" image="unavailable2.png">
                                                     <rect key="frame" x="225" y="5" width="150" height="224"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="4jB-Bk-67D"/>
@@ -601,5 +601,6 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="unavailable.png" width="316" height="475"/>
+        <image name="unavailable2.png" width="316" height="475"/>
     </resources>
 </document>

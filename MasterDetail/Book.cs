@@ -15,7 +15,7 @@ namespace MasterDetail
 	public class Book
 	{
 		// member variables
-		[PrimaryKey/*, AutoIncrement*/]
+		[PrimaryKey]
 		public DateTime dateadded { get; set; }
 
 		public string isbn { get; set; }

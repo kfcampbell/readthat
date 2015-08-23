@@ -89,6 +89,12 @@ namespace MasterDetail
 
 				Console.Out.WriteLine ("View updates done.");
 			}
+
+			// put some filler text in if the publisher isn't filled out
+			if(DetailItem.getPublisher() == string.Empty)
+			{
+				publisherLabel.Text = "No publisher information available.";
+			}
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)

@@ -133,5 +133,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <BundleResource Include="Resources\unavailable.png" />
+    <BundleResource Include="Resources\unavailable2.png" />
   </ItemGroup>
 </Project>

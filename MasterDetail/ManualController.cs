@@ -92,6 +92,26 @@ namespace MasterDetail
 				newBook.coverstring = "http://covers.openlibrary.org/b/isbn/" + isbnText + "-L.jpg";
 			}
 
+			// make sure that none of the important fields are empty before adding
+			if((newBook.title == string.Empty) || (newBook.author == string.Empty))
+			{
+				Console.Out.WriteLine("Hold on a minute! You didn't add a title or an author!");
+				string titleMessage = "Wait Just A Hot Second!";
+				string contentMessage = "You left the title or the author empty!\nIt's okay to write \'I don't know\' and edit it later!";
+
+				// now make an alert to notify the user
+				var alert = UIAlertController.Create(titleMessage, contentMessage, UIAlertControllerStyle.Alert);
+
+				// add buttons
+				alert.AddAction(UIAlertAction.Create("Hmm...Okay", UIAlertActionStyle.Default, null));
+
+				// actually show the thing
+				PresentViewController(alert, true, null);
+
+				// return so that the book's not added
+				return;
+			}
+
 			insertToDatabase(newBook);
 		}
 

@@ -35,19 +35,6 @@ namespace MasterDetail
 			}
 		}
 
-		/*public void ViewWillDisappear()
-		{
-			base.ViewDidDisappear ();
-			try
-			{
-				BTProgressHUD.Dismiss();
-			}
-			catch(Exception ex)
-			{
-				Console.Out.WriteLine ("Error attempting to hide BTProgressHud");
-			}
-		}*/
-
 		void ConfigureView ()
 		{
 			// Update the user interface for the detail item

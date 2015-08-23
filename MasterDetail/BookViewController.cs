@@ -61,6 +61,9 @@ namespace MasterDetail
 
 				this.Title = DetailItem.getTitle ();
 
+				// set the photo until otherwise determined
+				//coverImage.Image = UIImage.FromBundle ("unavailable.png");
+
 				// Update the view
 				ConfigureView ();
 			}

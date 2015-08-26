@@ -162,11 +162,12 @@ namespace MasterDetail
 				//coverImage.TranslatesAutoresizingMaskIntoConstraints = false;
 				//coverImage.Image = UIImage.FromBundle ("/var/mobile/Containers/Data/Application/828D8F48-D213-47A5-BE5C-3E05B32F1E80/Documents/Photo.jpg");
 
-				string path = "/var/mobile/Containers/Data/Application/828D8F48-D213-47A5-BE5C-3E05B32F1E80/Documents/Photo.png";
+				string path = DetailItem.newcoverstring;
+				Console.Out.WriteLine ("pngfilename = " + path);
 
 				try
 				{
-					await ImageService.LoadFile(path)
+					/*await*/ ImageService.LoadFile(path)
 						.Success(() =>
 							{
 								Console.Out.WriteLine("Image loaded success");
@@ -175,7 +176,7 @@ namespace MasterDetail
 							{
 								Console.Out.WriteLine("Image loaded failure");
 							})
-						.IntoAsync(coverImage);
+						.Into(coverImage);
 
 					Console.Out.WriteLine ("setting image from file completed");
 				}

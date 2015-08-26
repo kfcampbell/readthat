@@ -22,6 +22,7 @@ namespace MasterDetail
 		private string _pathToDatabase;
 		private string _databaseName = "book_database.db";
 		public IList<Book> bookList;
+		UIImagePickerController imagePicker;
 
 		public MasterViewController (IntPtr handle) : base (handle)
 		{
@@ -145,12 +146,14 @@ namespace MasterDetail
 
 		public void takePhoto()
 		{
+			string pngFilename = "not working";
+
 			Camera.TakePicture (this, (obj) =>
 				{
 				var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
 				var documentsDirectory = Environment.GetFolderPath
 					(Environment.SpecialFolder.Personal);
-					string pngFilename = System.IO.Path.Combine (documentsDirectory, "Photo.png"); // hardcoded filename, overwritten each time
+					pngFilename = System.IO.Path.Combine (documentsDirectory, "Photo.png"); // hardcoded filename, overwritten each time
 				NSData imgData = photo.AsPNG();
 				NSError err = null;
 					if (imgData.Save(pngFilename, false, out err)) 
@@ -159,7 +162,27 @@ namespace MasterDetail
 				} else {
 						Console.WriteLine("NOT saved as " + pngFilename + " because" + err.LocalizedDescription);
 				}
+
+					IEnumerator<Book> testEnum = dataSource.Objects.GetEnumerator ();
+					while(testEnum.MoveNext())
+					{
+						if(testEnum.Current.title == "test book")
+						{
+							Book newBook = testEnum.Current;
+							newBook.newcoverstring = pngFilename;
+
+							using (var db = new SQLite.SQLiteConnection(_pathToDatabase ))
+							{
+								db.InsertOrReplace(newBook);
+							}
+							Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");
+							Console.Out.WriteLine ("newbook filename: " + newBook.newcoverstring);
+
+						}
+					}
 			});
+
+
 		}
 
 		public void AddNewItem (object sender, EventArgs args)

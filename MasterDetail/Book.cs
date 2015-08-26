@@ -24,6 +24,7 @@ namespace MasterDetail
 		public string summary { get; set; }
 		public string author { get; set; }
 		public string coverstring { get; set; }
+		public string newcoverstring { get; set; }
 
 		public Book()
 		{

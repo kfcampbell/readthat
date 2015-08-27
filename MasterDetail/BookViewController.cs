@@ -10,6 +10,7 @@ using CoreImage;
 using BigTed;
 using FFImageLoading;
 using Foundation;
+using MessageUI;
 
 namespace MasterDetail
 {
@@ -25,6 +26,11 @@ namespace MasterDetail
 		partial void editButton_TouchUpInside (UIButton sender)
 		{
 			Console.Out.WriteLine("Book View Controller Edit Button Pressed");
+		}
+
+		partial void priceButton_TouchUpInside (UIButton sender)
+		{
+			Console.Out.WriteLine("price button hit!");
 		}
 
 		partial void summaryButton_TouchUpInside (UIButton sender)
@@ -51,6 +57,7 @@ namespace MasterDetail
 			PresentViewController(alert, true, null);
 		}
 
+
 		// called every time the class is instantiated.
 		public void SetDetailItem (Book newDetailItem)
 		{
@@ -74,6 +81,13 @@ namespace MasterDetail
 		{
 			// short delay to make sure view is loaded. experiment with number of milliseconds
 			await Task.Delay (100);
+
+			priceButton.SetTitle("altered!", UIControlState.Normal);
+
+			// instantiate the share button
+			var actionButton = new UIBarButtonItem (UIBarButtonSystemItem.Action, shareItem);
+			//actionButton.AccessibilityLabel = "actionButton";
+			NavigationItem.RightBarButtonItem = actionButton;
 
 			// Update the user interface for the detail item
 			if (IsViewLoaded && DetailItem != null)
@@ -110,10 +124,62 @@ namespace MasterDetail
 			}
 		}
 
+		public void shareItem(object sender, EventArgs e)
+		{
+			Console.Out.WriteLine ("Share button pressed!");
+
+			// Create a new Alert Controller
+			UIAlertController actionSheetAlert = UIAlertController
+				.Create("Share via Email or SMS", "Note that I'm not allowed to populate the text message for you :(", UIAlertControllerStyle.ActionSheet);
+
+			// Add Actions
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Share via Email",UIAlertActionStyle.Default, (action) => shareEmail()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Share via text/iMessage",UIAlertActionStyle.Default, (action) => shareText()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Cancel",UIAlertActionStyle.Default, (action) => Console.WriteLine ("Cancel button pressed.")));
+
+
+			// Display the alert
+			this.PresentViewController(actionSheetAlert,true,null);
+		}
+
+		public void shareEmail()
+		{
+			MFMailComposeViewController mailController;
+			string messageBody = "Hey, you should consider reading " + DetailItem.title + " by " + DetailItem.author + ".";
+
+			if (MFMailComposeViewController.CanSendMail) 
+			{
+				mailController = new MFMailComposeViewController ();
+
+				mailController.SetSubject ("Interesting Book");
+				mailController.SetMessageBody (messageBody, false);
+
+				mailController.Finished += ( object s, MFComposeResultEventArgs args) => 
+				{
+					Console.WriteLine (args.Result.ToString ());
+					args.Controller.DismissViewController (true, null);
+				};
+
+				this.PresentViewController (mailController, true, null);
+			}
+		}
+
+		public void shareText()
+		{
+			var smsTo = NSUrl.FromString("sms:");
+			UIApplication.SharedApplication.OpenUrl(smsTo);
+		}
+
 		// framework for downloading cover image. eventually store it and don't do it every time.
 		async void downloadAsync()
 		{
-			if (DetailItem.getCoverString () != null) {
+			if (!DetailItem.usesuserphoto) 
+			{
 				BTProgressHUD.Show ("Retrieving Cover...");
 				webClient = new WebClient ();
 				//An large image url
@@ -156,18 +222,16 @@ namespace MasterDetail
 				coverImage.Image = image;
 			} else
 			{
-				Console.Out.WriteLine ("Can't get cover. Cover string == null");
-				Console.Out.WriteLine ("Going to attempt to display image from file.");
+				Console.Out.WriteLine ("usesuserphoto == true; displaying image from file");
 
-				//coverImage.TranslatesAutoresizingMaskIntoConstraints = false;
-				//coverImage.Image = UIImage.FromBundle ("/var/mobile/Containers/Data/Application/828D8F48-D213-47A5-BE5C-3E05B32F1E80/Documents/Photo.jpg");
+				coverImage.TranslatesAutoresizingMaskIntoConstraints = false;
 
-				string path = DetailItem.newcoverstring;
+				string path = DetailItem.userimagepath;
 				Console.Out.WriteLine ("pngfilename = " + path);
 
 				try
 				{
-					/*await*/ ImageService.LoadFile(path)
+					await ImageService.LoadFile(path)
 						.Success(() =>
 							{
 								Console.Out.WriteLine("Image loaded success");
@@ -176,7 +240,7 @@ namespace MasterDetail
 							{
 								Console.Out.WriteLine("Image loaded failure");
 							})
-						.Into(coverImage);
+						.IntoAsync(coverImage);
 
 					Console.Out.WriteLine ("setting image from file completed");
 				}
@@ -184,6 +248,8 @@ namespace MasterDetail
 				{
 					Console.Out.WriteLine ("image loaded exception \n" + ex.ToString ());
 				}
+
+				coverImage.Transform = CGAffineTransform.MakeRotation ((float)Math.PI/2);
 			}
 		}
 

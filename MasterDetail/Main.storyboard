@@ -30,7 +30,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="2pz-XF-uhl" style="IBUITableViewCellStyleDefault" id="m0d-ak-lc9">
-                                <rect key="frame" x="0.0" y="22" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="800" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m0d-ak-lc9" id="d3P-M7-ByW">
                                     <rect key="frame" x="0.0" y="0.0" width="566" height="43.5"/>
@@ -166,7 +166,7 @@
                             <tableViewSection headerTitle="Book Title" id="570">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="571">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="571" id="572">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -190,13 +190,13 @@
                             <tableViewSection headerTitle="Author" id="600">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="601">
-                                        <rect key="frame" x="0.0" y="154" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="154" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="601" id="602">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="628" clearButtonMode="always">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="628">
                                                     <rect key="frame" x="21" y="7" width="558" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -214,13 +214,13 @@
                             <tableViewSection headerTitle="Publisher" id="607">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="608">
-                                        <rect key="frame" x="0.0" y="286" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="286" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="608" id="609">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="629" clearButtonMode="always">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="629">
                                                     <rect key="frame" x="21" y="7" width="559" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -238,13 +238,13 @@
                             <tableViewSection headerTitle="Summary/Notes" id="614">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="48" id="615">
-                                        <rect key="frame" x="0.0" y="418" width="600" height="48"/>
+                                        <rect key="frame" x="0.0" y="418" width="800" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="615" id="616">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="703" clearButtonMode="always">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="703">
                                                     <rect key="frame" x="20" y="12" width="560" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -262,13 +262,13 @@
                             <tableViewSection headerTitle="ISBN (if known)" id="621">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="622">
-                                        <rect key="frame" x="0.0" y="558" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="558" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="622" id="623">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="639" clearButtonMode="always">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="639">
                                                     <rect key="frame" x="19" y="5" width="562" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -283,10 +283,40 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Take Cover Photo (if no ISBN)" id="1819">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1820">
+                                        <rect key="frame" x="0.0" y="690" width="800" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1820" id="1821">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1827">
+                                                    <rect key="frame" x="183" y="7" width="228" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="228" id="loM-CV-JAH"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Take Photo">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="takePhotoButton_TouchUpInside:" destination="490" eventType="touchUpInside" id="1828"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="1827" firstAttribute="leading" secondItem="1821" secondAttribute="leading" constant="183" id="1cv-P6-UlU"/>
+                                                <constraint firstItem="1827" firstAttribute="centerY" secondItem="1821" secondAttribute="centerY" id="rlI-Dx-wbc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Add to Database" id="642">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="643">
-                                        <rect key="frame" x="0.0" y="690" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="822" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="643" id="644">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -325,6 +355,7 @@
                         <outlet property="isbnField" destination="639" id="name-outlet-639"/>
                         <outlet property="pubField" destination="629" id="name-outlet-629"/>
                         <outlet property="summaryField" destination="703" id="name-outlet-703"/>
+                        <outlet property="takePhotoButton" destination="1827" id="name-outlet-1827"/>
                         <outlet property="titleField" destination="593" id="name-outlet-593"/>
                     </connections>
                 </tableViewController>
@@ -344,13 +375,13 @@
                             <tableViewSection headerTitle="Cover" id="1428">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="234" id="1429">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="234"/>
+                                        <rect key="frame" x="0.0" y="22" width="800" height="234"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1429" id="1430">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="233.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1516" image="unavailable2.png">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="unavailable2.png" translatesAutoresizingMaskIntoConstraints="NO" id="1516">
                                                     <rect key="frame" x="225" y="5" width="150" height="224"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="4jB-Bk-67D"/>
@@ -369,7 +400,7 @@
                             <tableViewSection headerTitle="Title" id="1435">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1436">
-                                        <rect key="frame" x="0.0" y="534" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="534" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1436" id="1437">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -396,7 +427,7 @@
                             <tableViewSection headerTitle="Author" id="1477">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1478">
-                                        <rect key="frame" x="0.0" y="666" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="666" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1478" id="1479">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -423,7 +454,7 @@
                             <tableViewSection headerTitle="Summary/Notes" id="1488">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1489">
-                                        <rect key="frame" x="0.0" y="798" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="798" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1489" id="1490">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -453,7 +484,7 @@
                             <tableViewSection headerTitle="Date Added" id="1495">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1496">
-                                        <rect key="frame" x="0.0" y="930" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="930" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1496" id="1497">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -480,7 +511,7 @@
                             <tableViewSection headerTitle="Publisher" id="1502">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1503">
-                                        <rect key="frame" x="0.0" y="1062" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="1062" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1503" id="1504">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -507,10 +538,10 @@
                             <tableViewSection headerTitle="Edit" id="1509">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1510">
-                                        <rect key="frame" x="0.0" y="1194" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="1194" width="800" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1510" id="1511">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="800" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1522">
@@ -575,6 +606,42 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Pricing via Amazon" id="1902">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1903">
+                                        <rect key="frame" x="0.0" y="1326" width="800" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1903" id="1904">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1917" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="279" y="7" width="46" height="30"/>
+                                                    <state key="normal" title="to be altered later.">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                                        <rect key="frame" x="310" y="7" width="179" height="30"/>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="priceButton_TouchUpInside:" destination="1416" id="1924" eventType="touchUpInside"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="1917"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <mask key="subviews">
+                                                    <include reference="1917"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="1416" id="1418"/>
@@ -589,6 +656,7 @@
                         <outlet property="publisherLabel" destination="1521" id="name-outlet-1521"/>
                         <outlet property="summaryButton" destination="1709" id="name-outlet-1709"/>
                         <outlet property="titleLabel" destination="1517" id="name-outlet-1517"/>
+                        <outlet property="priceButton" destination="1917" id="name-outlet-1917"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1422" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -596,11 +664,11 @@
             <point key="canvasLocation" x="1458" y="604"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="unavailable2.png" width="316" height="475"/>
+        <image name="unavailable.png" width="316" height="475"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="1801"/>
     </inferredMetricsTieBreakers>
-    <resources>
-        <image name="unavailable.png" width="316" height="475"/>
-        <image name="unavailable2.png" width="316" height="475"/>
-    </resources>
 </document>

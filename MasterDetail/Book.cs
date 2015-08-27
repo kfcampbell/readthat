@@ -24,7 +24,8 @@ namespace MasterDetail
 		public string summary { get; set; }
 		public string author { get; set; }
 		public string coverstring { get; set; }
-		public string newcoverstring { get; set; }
+		public string userimagepath { get; set; }
+		public bool usesuserphoto { get; set; }
 
 		public Book()
 		{
@@ -41,6 +42,16 @@ namespace MasterDetail
 			else
 			{
 				Console.Out.WriteLine ("constructor. viewInformation returned false");
+			}
+			//determine ();
+		}
+
+		private void determine()
+		{
+			if(this.isbn.Length < 8 || this.isbn == null || this.isbn == string.Empty)
+			{
+				Console.Out.WriteLine ("constructor. isbn is empty");
+				this.usesuserphoto = true;
 			}
 		}
 
@@ -182,24 +193,6 @@ namespace MasterDetail
 				JToken bookSummary = bookInfo ["summary"];
 				JToken authorData = bookInfo["author_data"];
 				JToken authorName = authorData[0];
-
-				// assign the member
-				/*this.isbn = bookInfo["isbn13"].ToString();
-				this.publisher = bookInfo["publisher_text"].ToString();
-				this.summary = bookInfo["summary"].ToString();
-				this.author = authorName["name"].ToString();
-
-				// process the title for correct capitalization
-				//this.title = bookInfo["title_latin"].ToString();
-				string booktitle = bookInfo["title_latin"].ToString();
-				booktitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(booktitle.ToLower());
-				this.title = booktitle;
-
-				// assign cover string and datetime here just to test
-				this.coverstring = "http://covers.openlibrary.org/b/isbn/" + this.isbn+ "-L.jpg";
-				var thisdate = new DateTime ();
-				thisdate = DateTime.Now.ToLocalTime ();
-				this.dateadded = thisdate;*/
 
 				// print statements just to test:
 				Console.Out.WriteLine("ViewInformation");

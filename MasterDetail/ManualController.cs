@@ -13,6 +13,8 @@ namespace MasterDetail
 		private string _pathToDatabase;
 		private const string _databaseName = "book_database.db";
 		private DateTime timeAdded;
+		private string photoString;
+		string pngFilename;
 
 		public ManualController (IntPtr handle) : base (handle)
 		{
@@ -56,6 +58,49 @@ namespace MasterDetail
 			}
 		}
 
+		partial void takePhotoButton_TouchUpInside (UIButton sender)
+		{
+			Console.Out.WriteLine("Take Photo button pressed.");
+
+			pngFilename = "not working";
+
+			DateTime photoTime = DateTime.Now.ToLocalTime ();
+
+			// testing
+			Console.Out.WriteLine(photoTime.ToLongDateString() + " == long date string");
+			Console.Out.WriteLine(photoTime.ToLongTimeString() + " == long time string");
+			Console.Out.WriteLine(photoTime.ToShortDateString() + " == short date string");
+			photoString = "photo" + photoTime.Month + photoTime.Day + photoTime.Year + photoTime.Hour 
+				+ photoTime.Minute + photoTime.Second + ".png";
+			Console.Out.WriteLine("photostring: " + photoString);
+
+			Camera.TakePicture (this, (obj) =>
+				{
+					var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
+					var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+					pngFilename = System.IO.Path.Combine (documentsDirectory, photoString); 
+					NSData imgData = photo.AsPNG();
+					NSError err = null;
+					if (imgData.Save(pngFilename, false, out err)) 
+					{
+						Console.WriteLine("saved as " + pngFilename);
+					} 
+					else 
+					{
+						Console.WriteLine("NOT saved as " + pngFilename + " because" + err.LocalizedDescription);
+					}
+
+					// alert to let the user know the photo was added
+					var alert = UIAlertController.Create("Photo Added!", "", UIAlertControllerStyle.Alert);
+
+					// add buttons
+					alert.AddAction(UIAlertAction.Create("Okay", UIAlertActionStyle.Default, null));
+
+					// actually show the thing
+					PresentViewController(alert, true, null);
+				});
+		}
+
 		partial void addButton_TouchUpInside (UIButton sender)
 		{
 			Console.Out.WriteLine("Manual add button pressed.");
@@ -68,7 +113,32 @@ namespace MasterDetail
 			Console.Out.WriteLine("book info: \n" + titleText + "\n" + authorText + "\n" + pubText + "\n" + summaryText + "\n" + isbnText);
 
 			// then make it into a book object and load it into the database
-			newBook = new Book();
+			if(string.IsNullOrEmpty(isbnText) || isbnText.Length < 9)
+			{
+				newBook = new Book(); // used to be blank
+				Console.Out.WriteLine("newbook blank isbn");
+				newBook.usesuserphoto = true;
+			}
+			else
+			{
+				newBook = new Book(isbnText);
+				Console.Out.WriteLine("newbook given isbn");
+				newBook.usesuserphoto = false;
+			}
+
+			if(!string.IsNullOrEmpty(photoString))
+			{
+				Console.Out.WriteLine("photo string not null or empty! adding");
+				newBook.userimagepath = photoString;
+			}
+
+			if(!string.IsNullOrEmpty(pngFilename))
+			{
+				Console.Out.WriteLine("pngfile name not null or empty: " + pngFilename);
+				newBook.userimagepath = pngFilename;
+			}
+
+			// perform user initializations
 			newBook.title = titleText;
 			newBook.author = authorText;
 			newBook.publisher = pubText;
@@ -84,12 +154,6 @@ namespace MasterDetail
 			else
 			{
 				newBook.dateadded = timeAdded;
-			}
-
-			if(isbnText != string.Empty)
-			{
-				newBook.isbn = isbnText;
-				newBook.coverstring = "http://covers.openlibrary.org/b/isbn/" + isbnText + "-L.jpg";
 			}
 
 			// make sure that none of the important fields are empty before adding

@@ -36,11 +36,19 @@ namespace MasterDetail
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton takePhotoButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField titleField { get; set; }
 
 		[Action ("addButton_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void addButton_TouchUpInside (UIButton sender);
+
+		[Action ("takePhotoButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void takePhotoButton_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -63,6 +71,10 @@ namespace MasterDetail
 			if (summaryField != null) {
 				summaryField.Dispose ();
 				summaryField = null;
+			}
+			if (takePhotoButton != null) {
+				takePhotoButton.Dispose ();
+				takePhotoButton = null;
 			}
 			if (titleField != null) {
 				titleField.Dispose ();

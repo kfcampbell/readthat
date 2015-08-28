@@ -78,7 +78,7 @@ namespace MasterDetail
 				{
 					var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
 					var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					pngFilename = System.IO.Path.Combine (documentsDirectory, photoString); 
+					pngFilename = Path.Combine (documentsDirectory, photoString); 
 					NSData imgData = photo.AsPNG();
 					NSError err = null;
 					if (imgData.Save(pngFilename, false, out err)) 
@@ -126,11 +126,11 @@ namespace MasterDetail
 				newBook.usesuserphoto = false;
 			}
 
-			if(!string.IsNullOrEmpty(photoString))
+			/*if(!string.IsNullOrEmpty(photoString))
 			{
 				Console.Out.WriteLine("photo string not null or empty! adding");
 				newBook.userimagepath = photoString;
-			}
+			}*/
 
 			if(!string.IsNullOrEmpty(pngFilename))
 			{
@@ -186,8 +186,6 @@ namespace MasterDetail
 
 			using (var db = new SQLite.SQLiteConnection(_pathToDatabase ))
 			{
-				//db.Insert(theBook);
-				//db.Update (theBook);
 				db.InsertOrReplace (theBook);
 			}
 			Console.Out.WriteLine ("Book " + newBook.getTitle () + " inserted into database.");

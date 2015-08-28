@@ -109,6 +109,8 @@ namespace MasterDetail
 			{
 				publisherLabel.Text = "No publisher information available.";
 			}
+
+			getPrice ();
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -140,7 +142,7 @@ namespace MasterDetail
 				.Create("Share via text/iMessage",UIAlertActionStyle.Default, (action) => shareText()));
 
 			actionSheetAlert.AddAction(UIAlertAction
-				.Create("Cancel",UIAlertActionStyle.Default, (action) => Console.WriteLine ("Cancel button pressed.")));
+				.Create("Cancel",UIAlertActionStyle.Cancel, (action) => Console.WriteLine ("Cancel button pressed.")));
 
 
 			// Display the alert
@@ -229,7 +231,7 @@ namespace MasterDetail
 				string path = DetailItem.userimagepath;
 				Console.Out.WriteLine ("pngfilename = " + path);
 
-				try
+				/*try
 				{
 					await ImageService.LoadFile(path)
 						.Success(() =>
@@ -247,7 +249,9 @@ namespace MasterDetail
 				catch(Exception ex)
 				{
 					Console.Out.WriteLine ("image loaded exception \n" + ex.ToString ());
-				}
+				}*/
+
+				coverImage.Image = UIImage.FromFile (path);
 
 				coverImage.Transform = CGAffineTransform.MakeRotation ((float)Math.PI/2);
 			}
@@ -266,6 +270,60 @@ namespace MasterDetail
 				webClient.CancelAsync ();
 
 			webClient.DownloadProgressChanged -= HandleDownloadProgressChanged;
+		}
+
+		public /*async*/ void getPrice()
+		{
+			if(string.IsNullOrEmpty(DetailItem.isbn))
+			{
+				priceButton.SetTitle ("Sorry, pricing data is only available via ISBN", UIControlState.Normal);
+			}
+			else
+			{
+				// attempt to get pricing data via ISBNdb
+				// make the url
+				// http://isbndb.com/api/v2/json/[your-api-key]/prices/9780849303159 
+				string url = "http://isbndb.com/api/v2/json/2DEB0A3O/prices/" + DetailItem.isbn;
+				Console.Out.WriteLine ("URL used = " + url);
+
+				// httpwebrequest example altered to fit with isbndb
+				var request = HttpWebRequest.Create(string.Format(@url));
+				request.ContentType = "application/json";
+				request.Method = "GET";
+
+				try
+				{
+					using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+					{
+						if (response.StatusCode != HttpStatusCode.OK)
+							Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+						using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+						{
+							var content = reader.ReadToEnd();
+							if(string.IsNullOrWhiteSpace(content)) 
+							{
+								Console.Out.WriteLine("Response contained empty body...");
+							}
+							else 
+							{
+								Console.Out.WriteLine("Response Body: \r\n {0}", content);
+
+								// call function to parse data
+								parseJSON (content);
+							}
+						}
+					}
+				}
+				catch(Exception ex)
+				{
+					Console.Out.WriteLine ("HTTPWebRequest error \n" + ex.ToString ());
+				}
+			}
+		}
+
+		public /*async*/ void parseJSON(string content)
+		{
+			Console.Out.WriteLine ("Parse pricing JSON entered.");
 		}
 	}
 }

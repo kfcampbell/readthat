@@ -56,9 +56,14 @@ namespace MasterDetail
 			// Perform any additional setup after loading the view, typically from a nib.
 			NavigationItem.LeftBarButtonItem = EditButtonItem;
 
+			// experiment with fuck the edit button item. going for sorting here
+			var sortButton = new UIBarButtonItem (UIBarButtonSystemItem.Bookmarks, sortDataBase);
+
+
 			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
 			addButton.AccessibilityLabel = "addButton";
-			NavigationItem.RightBarButtonItem = addButton;
+
+			NavigationItem.RightBarButtonItems = new UIBarButtonItem[]{addButton, sortButton};
 
 			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
 		}
@@ -99,6 +104,142 @@ namespace MasterDetail
 			TableView.ReloadData ();
 		}
 
+		private void sortDataBase(object sender, EventArgs e)
+		{
+			Console.Out.WriteLine ("sort database entered.");
+
+			// Create a new Alert Controller
+			UIAlertController actionSheetAlert = UIAlertController
+				.Create("Sort Books", "Select an option from below:", UIAlertControllerStyle.ActionSheet);
+
+			// Add Actions
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Recently Added First (default)",UIAlertActionStyle.Default, (action) => sortByNewest()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Recently Added Last",UIAlertActionStyle.Default, (action) => sortByOldest()));
+
+			actionSheetAlert.AddAction(UIAlertAction
+				.Create("Alphabetical",UIAlertActionStyle.Default, (action) => sortAToZ()));
+
+			actionSheetAlert.AddAction (UIAlertAction
+				.Create ("Reverse Alphabetical", UIAlertActionStyle.Default, (action) => sortZToA()));
+
+			actionSheetAlert.AddAction (UIAlertAction
+				.Create ("Cancel", UIAlertActionStyle.Cancel, (action) => Console.Out.WriteLine("Cancel pressed.")));
+
+			// Display the alert
+			this.PresentViewController(actionSheetAlert,true,null);
+		}
+
+		private void sortByOldest()
+		{
+			Console.Out.WriteLine ("Sort by oldest entered");
+
+			base.ViewDidLoad ();
+			this.Title = "Book List";
+			this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = recentLastBookList (db);
+
+			// Perform any additional setup after loading the view, typically from a nib.
+			NavigationItem.LeftBarButtonItem = EditButtonItem;
+
+			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
+			addButton.AccessibilityLabel = "addButton";
+			NavigationItem.RightBarButtonItem = addButton;
+
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+		}
+
+		private void sortByNewest()
+		{
+			Console.Out.WriteLine ("Sort by newest entered");
+			base.ViewDidLoad ();
+			this.Title = "Book List";
+			this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = BookList (db);
+
+			// Perform any additional setup after loading the view, typically from a nib.
+			NavigationItem.LeftBarButtonItem = EditButtonItem;
+
+			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
+			addButton.AccessibilityLabel = "addButton";
+			NavigationItem.RightBarButtonItem = addButton;
+
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+
+		}
+
+		private void sortAToZ()
+		{
+			Console.Out.WriteLine ("Sort A to Z entered");
+
+			base.ViewDidLoad ();
+			this.Title = "Book List";
+			this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = aToZBookList (db);
+
+			// Perform any additional setup after loading the view, typically from a nib.
+			NavigationItem.LeftBarButtonItem = EditButtonItem;
+
+			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
+			addButton.AccessibilityLabel = "addButton";
+			NavigationItem.RightBarButtonItem = addButton;
+
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+		}
+
+		private void sortZToA()
+		{
+			Console.Out.WriteLine ("Sort Z to A entered");
+
+			base.ViewDidLoad ();
+			this.Title = "Book List";
+			this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+
+			// begin creating and loading the database attempt
+			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			_pathToDatabase = Path.Combine(documents, _databaseName);
+			createDatabase ();
+
+			var db = new SQLite.SQLiteConnection (_pathToDatabase);
+			QueryValuations (db);
+			bookList = zToABookList (db);
+
+			// Perform any additional setup after loading the view, typically from a nib.
+			NavigationItem.LeftBarButtonItem = EditButtonItem;
+
+			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
+			addButton.AccessibilityLabel = "addButton";
+			NavigationItem.RightBarButtonItem = addButton;
+
+			TableView.Source = dataSource = new DataSource (this, bookList, _pathToDatabase);
+		}
+
 		private void createDatabase()
 		{
 			// Create the database and a table to hold Person information.
@@ -136,6 +277,30 @@ namespace MasterDetail
 			return newBookList;
 		}
 
+		public static IList<Book> aToZBookList (SQLiteConnection db)
+		{
+
+			Book[] bookArray = db.Query<Book> ("select * from Book order by title asc").ToArray ();
+			IList<Book> newBookList = bookArray;
+			return newBookList;
+		}
+
+		public static IList<Book> zToABookList (SQLiteConnection db)
+		{
+
+			Book[] bookArray = db.Query<Book> ("select * from Book order by title desc").ToArray ();
+			IList<Book> newBookList = bookArray;
+			return newBookList;
+		}
+
+		public static IList<Book> recentLastBookList (SQLiteConnection db)
+		{
+
+			Book[] bookArray = db.Query<Book> ("select * from Book order by dateAdded asc").ToArray ();
+			IList<Book> newBookList = bookArray;
+			return newBookList;
+		}
+
 		public void AddNewItem (object sender, EventArgs args)
 		{
 			// Create a new Alert Controller
@@ -150,8 +315,7 @@ namespace MasterDetail
 				.Create("Enter information manually",UIAlertActionStyle.Default, (action) => enterManually()));
 
 			actionSheetAlert.AddAction(UIAlertAction
-				.Create("Cancel",UIAlertActionStyle.Default, (action) => Console.WriteLine ("Cancel button pressed.")));
-
+				.Create("Cancel",UIAlertActionStyle.Cancel, (action) => Console.WriteLine ("Cancel button pressed.")));
 
 			// Display the alert
 			this.PresentViewController(actionSheetAlert,true,null);

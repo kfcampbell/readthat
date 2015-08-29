@@ -11,6 +11,8 @@ using BigTed;
 using FFImageLoading;
 using Foundation;
 using MessageUI;
+using RestSharp;
+using Newtonsoft.Json.Linq;
 
 namespace MasterDetail
 {
@@ -272,7 +274,7 @@ namespace MasterDetail
 			webClient.DownloadProgressChanged -= HandleDownloadProgressChanged;
 		}
 
-		public /*async*/ void getPrice()
+		public void getPrice()
 		{
 			if(string.IsNullOrEmpty(DetailItem.isbn))
 			{
@@ -284,46 +286,44 @@ namespace MasterDetail
 				// make the url
 				// http://isbndb.com/api/v2/json/[your-api-key]/prices/9780849303159 
 				string url = "http://isbndb.com/api/v2/json/2DEB0A3O/prices/" + DetailItem.isbn;
-				Console.Out.WriteLine ("URL used = " + url);
+				Console.Out.WriteLine ("url used: " + url);
 
-				// httpwebrequest example altered to fit with isbndb
-				var request = HttpWebRequest.Create(string.Format(@url));
-				request.ContentType = "application/json";
-				request.Method = "GET";
+				// restSharp attempt here
 
-				try
+				var client = new RestClient (url);
+
+				var request = new RestRequest (Method.GET);
+				client.ExecuteAsync (request, response => 
 				{
-					using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-					{
-						if (response.StatusCode != HttpStatusCode.OK)
-							Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-						using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-						{
-							var content = reader.ReadToEnd();
-							if(string.IsNullOrWhiteSpace(content)) 
-							{
-								Console.Out.WriteLine("Response contained empty body...");
-							}
-							else 
-							{
-								Console.Out.WriteLine("Response Body: \r\n {0}", content);
-
-								// call function to parse data
-								parseJSON (content);
-							}
-						}
-					}
-				}
-				catch(Exception ex)
-				{
-					Console.Out.WriteLine ("HTTPWebRequest error \n" + ex.ToString ());
-				}
+					Console.WriteLine ("RestSharp response:" + response.Content);
+						parseJSON(response.Content);
+				});
 			}
 		}
 
-		public /*async*/ void parseJSON(string content)
+		public void parseJSON(string content)
 		{
 			Console.Out.WriteLine ("Parse pricing JSON entered.");
+
+			JObject wholeThing = JObject.Parse (content);
+			JToken data = wholeThing ["data"];
+
+			// because they have a stupid array format
+			JToken bookInfo = data [0];
+
+			foreach(var obj in data)
+			{
+				Console.Out.WriteLine ("obj to string: " + obj.ToString ());
+				if(obj["store_id"].ToString() == "amazon")
+				{
+					Console.Out.WriteLine ("Amazon price: $" + obj ["price"].ToString ());
+					priceButton.SetTitle ("Amazon price: $" + obj ["price"].ToString (), UIControlState.Normal);
+				}
+				else
+				{
+					priceButton.SetTitle ("No Amazon price found!", UIControlState.Disabled);
+				}
+			}
 		}
 	}
 }

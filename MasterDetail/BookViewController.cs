@@ -21,6 +21,8 @@ namespace MasterDetail
 		public Book DetailItem { get; set; }
 		public WebClient webClient;
 
+		string priceString = "Sorry; pricing data not available.";
+
 		public BookViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -33,6 +35,13 @@ namespace MasterDetail
 		partial void priceButton_TouchUpInside (UIButton sender)
 		{
 			Console.Out.WriteLine("price button hit!");
+
+			// load the amazon site if tapped
+			UIWebView webView = new UIWebView (View.Bounds);
+			View.AddSubview(webView);
+			string url = "http://xamarin.com";
+			webView.ScalesPageToFit = true;
+			webView.LoadRequest(new NSUrlRequest(new NSUrl(url)));
 		}
 
 		partial void summaryButton_TouchUpInside (UIButton sender)
@@ -84,7 +93,7 @@ namespace MasterDetail
 			// short delay to make sure view is loaded. experiment with number of milliseconds
 			await Task.Delay (100);
 
-			priceButton.SetTitle("altered!", UIControlState.Normal);
+			//priceButton.SetTitle("altered!", UIControlState.Normal);
 
 			// instantiate the share button
 			var actionButton = new UIBarButtonItem (UIBarButtonSystemItem.Action, shareItem);
@@ -113,6 +122,8 @@ namespace MasterDetail
 			}
 
 			getPrice ();
+			await Task.Delay (1000); // the issue with time is it's so dependent on internet connection.
+			priceButton.SetTitle (priceString, UIControlState.Normal);
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -278,7 +289,7 @@ namespace MasterDetail
 		{
 			if(string.IsNullOrEmpty(DetailItem.isbn))
 			{
-				priceButton.SetTitle ("Sorry, pricing data is only available via ISBN", UIControlState.Normal);
+				priceButton.SetTitle ("Sorry, pricing data is only available via ISBN", UIControlState.Disabled);
 			}
 			else
 			{
@@ -289,14 +300,13 @@ namespace MasterDetail
 				Console.Out.WriteLine ("url used: " + url);
 
 				// restSharp attempt here
-
 				var client = new RestClient (url);
 
 				var request = new RestRequest (Method.GET);
 				client.ExecuteAsync (request, response => 
 				{
 					Console.WriteLine ("RestSharp response:" + response.Content);
-						parseJSON(response.Content);
+					parseJSON(response.Content);
 				});
 			}
 		}
@@ -304,24 +314,29 @@ namespace MasterDetail
 		public void parseJSON(string content)
 		{
 			Console.Out.WriteLine ("Parse pricing JSON entered.");
+			//priceButton.SetTitle (priceString, UIControlState.Disabled);
 
 			JObject wholeThing = JObject.Parse (content);
 			JToken data = wholeThing ["data"];
 
 			// because they have a stupid array format
 			JToken bookInfo = data [0];
+			//Console.Out.WriteLine ("Book info: " + bookInfo.ToString ());
 
 			foreach(var obj in data)
 			{
-				Console.Out.WriteLine ("obj to string: " + obj.ToString ());
+				//Console.Out.WriteLine ("obj to string: " + obj.ToString ());
 				if(obj["store_id"].ToString() == "amazon")
 				{
 					Console.Out.WriteLine ("Amazon price: $" + obj ["price"].ToString ());
-					priceButton.SetTitle ("Amazon price: $" + obj ["price"].ToString (), UIControlState.Normal);
+					//priceButton.SetTitle ("Amazon price: $" + obj ["price"].ToString (), UIControlState.Normal);
+					priceString = "Amazon price: $" + obj ["price"];
 				}
 				else
 				{
-					priceButton.SetTitle ("No Amazon price found!", UIControlState.Disabled);
+					//priceButton.SetTitle ("No Amazon price found!", UIControlState.Disabled);
+					Console.Out.WriteLine ("No Amazon price found!");
+					//priceString = "No Amazon price found!";
 				}
 			}
 		}

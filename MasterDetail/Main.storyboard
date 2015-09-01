@@ -66,94 +66,6 @@
             </objects>
             <point key="canvasLocation" x="660" y="71"/>
         </scene>
-        <!--Detail-->
-        <scene sceneID="Cn3-H9-jdl">
-            <objects>
-                <viewController title="Detail" id="Ah7-4n-0Wa" customClass="DetailViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="cIm-e0-J51"/>
-                        <viewControllerLayoutGuide type="bottom" id="a0L-h9-sNL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="MMQ-IT-qOo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Title" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                                <rect key="frame" x="133" y="333" width="334" height="35"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="334" id="HkU-7l-0h4"/>
-                                    <constraint firstAttribute="height" constant="35" id="ZQQ-Tv-QYK"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="176">
-                                <rect key="frame" x="220" y="72" width="160" height="240"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="6rV-Wh-bFl"/>
-                                    <constraint firstAttribute="height" constant="240" id="hum-qH-Gvg"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Author" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="333">
-                                <rect key="frame" x="133" y="387" width="334" height="39"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="TbC-ke-eVd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Date Added" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="360">
-                                <rect key="frame" x="133" y="443" width="334" height="36"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="qHq-gc-8Lq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="345">
-                                <rect key="frame" x="133" y="507" width="334" height="29"/>
-                                <state key="normal" title="View Summary">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="345" firstAttribute="top" secondItem="360" secondAttribute="bottom" constant="28" id="07j-Eg-7oT"/>
-                            <constraint firstItem="333" firstAttribute="trailing" secondItem="37" secondAttribute="trailing" id="BW5-PC-Efu"/>
-                            <constraint firstItem="345" firstAttribute="trailing" secondItem="360" secondAttribute="trailing" id="FaW-FX-C6w"/>
-                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="345" secondAttribute="bottom" constant="64" id="OaK-bl-3mP"/>
-                            <constraint firstItem="176" firstAttribute="centerX" secondItem="37" secondAttribute="centerX" id="XYg-Gk-XMf"/>
-                            <constraint firstItem="360" firstAttribute="leading" secondItem="333" secondAttribute="leading" id="XtQ-63-7Fl"/>
-                            <constraint firstItem="176" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" symbolic="YES" id="cJk-5b-PKk"/>
-                            <constraint firstItem="345" firstAttribute="leading" secondItem="360" secondAttribute="leading" id="e4i-cF-JXW"/>
-                            <constraint firstItem="37" firstAttribute="top" secondItem="176" secondAttribute="bottom" constant="21" id="h4D-Ze-6Y4"/>
-                            <constraint firstItem="360" firstAttribute="top" secondItem="333" secondAttribute="bottom" constant="17" id="hvH-vh-Tei"/>
-                            <constraint firstItem="176" firstAttribute="centerX" secondItem="MMQ-IT-qOo" secondAttribute="centerX" id="ir6-36-TxY"/>
-                            <constraint firstItem="360" firstAttribute="trailing" secondItem="333" secondAttribute="trailing" id="nTs-eb-dPB"/>
-                            <constraint firstItem="333" firstAttribute="leading" secondItem="37" secondAttribute="leading" id="wTD-HZ-eva"/>
-                            <constraint firstItem="333" firstAttribute="top" secondItem="37" secondAttribute="bottom" constant="19" id="zWa-i9-hDY"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Detail" id="cra-N8-TIN"/>
-                    <connections>
-                        <outlet property="authorLabel" destination="333" id="name-outlet-333"/>
-                        <outlet property="coverImage" destination="176" id="name-outlet-176"/>
-                        <outlet property="dateAddedLabel" destination="360" id="name-outlet-360"/>
-                        <outlet property="summaryButton" destination="345" id="name-outlet-345"/>
-                        <outlet property="titleLabel" destination="37" id="name-outlet-37"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2553" y="157"/>
-        </scene>
         <!--Manual Controller-->
         <scene sceneID="489">
             <objects>
@@ -563,10 +475,43 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Pricing via Amazon" id="1902">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="48" id="1903">
+                                        <rect key="frame" x="0.0" y="1194" width="768" height="48"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1903" id="1904">
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="47.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="TopLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1917">
+                                                    <rect key="frame" x="13" y="9" width="574" height="30"/>
+                                                    <state key="normal" title="to be altered later.">
+                                                        <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="priceButton_TouchUpInside:" destination="1416" eventType="touchUpInside" id="1924"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="1917" firstAttribute="top" secondItem="1904" secondAttribute="topMargin" constant="1" id="0FW-T3-JyF"/>
+                                                <constraint firstItem="1917" firstAttribute="leading" secondItem="1904" secondAttribute="leadingMargin" constant="5" id="GfP-L0-NFF"/>
+                                                <constraint firstItem="1917" firstAttribute="centerX" secondItem="1904" secondAttribute="centerX" id="Sai-QZ-jVk"/>
+                                            </constraints>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <mask key="subviews">
+                                                    <include reference="1917"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Edit" id="1509">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="1510">
-                                        <rect key="frame" x="0.0" y="1194" width="768" height="44"/>
+                                        <rect key="frame" x="0.0" y="1334" width="768" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1510" id="1511">
                                             <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
@@ -634,45 +579,13 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Pricing via Amazon" id="1902">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="48" id="1903">
-                                        <rect key="frame" x="0.0" y="1326" width="768" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1903" id="1904">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="47.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="TopLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1917">
-                                                    <rect key="frame" x="104" y="9" width="560" height="30"/>
-                                                    <state key="normal" title="to be altered later.">
-                                                        <color key="titleShadowColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="priceButton_TouchUpInside:" destination="1416" eventType="touchUpInside" id="1924"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="1917" firstAttribute="top" secondItem="1904" secondAttribute="topMargin" constant="1" id="76H-aV-e4P"/>
-                                                <constraint firstItem="1917" firstAttribute="leading" secondItem="1904" secondAttribute="leadingMargin" constant="96" id="U5u-jh-wZJ"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="1917" secondAttribute="trailing" constant="-72" id="cGn-eX-NUB"/>
-                                            </constraints>
-                                            <variation key="heightClass=regular-widthClass=regular">
-                                                <mask key="subviews">
-                                                    <include reference="1917"/>
-                                                </mask>
-                                            </variation>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="1416" id="1418"/>
                             <outlet property="delegate" destination="1416" id="1419"/>
                         </connections>
                     </tableView>
+                    <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="authorLabel" destination="1518" id="name-outlet-1518"/>
                         <outlet property="coverImage" destination="1516" id="name-outlet-1516"/>

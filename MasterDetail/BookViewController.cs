@@ -37,11 +37,21 @@ namespace MasterDetail
 			Console.Out.WriteLine("price button hit!");
 
 			// load the amazon site if tapped
-			UIWebView webView = new UIWebView (View.Bounds);
-			View.AddSubview(webView);
-			string url = "http://xamarin.com";
-			webView.ScalesPageToFit = true;
-			webView.LoadRequest(new NSUrlRequest(new NSUrl(url)));
+			if(!string.IsNullOrEmpty(DetailItem.isbn))
+			{
+				/*UIWebView webView = new UIWebView (View.Bounds); // View.Bounds
+				View.AddSubview(webView);
+				webView.ScalesPageToFit = true;
+				webView.ScrollView.ContentInset = new UIEdgeInsets(0,0,0,0);
+				webView.ScrollView.BackgroundColor = UIColor.Black;
+				webView.BackgroundColor = UIColor.Black;
+
+				webView.LoadRequest(new NSUrlRequest(new NSUrl(url)));*/
+
+				string url = "http://amazon.com/s?index=books&field-isbn=" + DetailItem.isbn;
+
+				UIApplication.SharedApplication.OpenUrl(new NSUrl(url));
+			}
 		}
 
 		partial void summaryButton_TouchUpInside (UIButton sender)
@@ -124,6 +134,11 @@ namespace MasterDetail
 			getPrice ();
 			await Task.Delay (1000); // the issue with time is it's so dependent on internet connection.
 			priceButton.SetTitle (priceString, UIControlState.Normal);
+
+			if(string.IsNullOrEmpty(DetailItem.isbn))
+			{
+				priceButton.SetTitle ("Sorry, no pricing available.", UIControlState.Disabled);
+			}
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)

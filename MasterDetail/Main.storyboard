@@ -605,6 +605,7 @@
     <resources>
         <image name="unavailable2.png" width="316" height="475"/>
         <image name="unavailable.png" width="316" height="475"/>
+        <image name="tabBarBackground.png" width="256" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="1801"/>

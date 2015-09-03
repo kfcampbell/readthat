@@ -39,14 +39,6 @@ namespace MasterDetail
 			// load the amazon site if tapped
 			if(!string.IsNullOrEmpty(DetailItem.isbn))
 			{
-				/*UIWebView webView = new UIWebView (View.Bounds); // View.Bounds
-				View.AddSubview(webView);
-				webView.ScalesPageToFit = true;
-				webView.ScrollView.ContentInset = new UIEdgeInsets(0,0,0,0);
-				webView.ScrollView.BackgroundColor = UIColor.Black;
-				webView.BackgroundColor = UIColor.Black;
-
-				webView.LoadRequest(new NSUrlRequest(new NSUrl(url)));*/
 
 				string url = "http://amazon.com/s?index=books&field-isbn=" + DetailItem.isbn;
 
@@ -103,8 +95,6 @@ namespace MasterDetail
 			// short delay to make sure view is loaded. experiment with number of milliseconds
 			await Task.Delay (100);
 
-			//priceButton.SetTitle("altered!", UIControlState.Normal);
-
 			// instantiate the share button
 			var actionButton = new UIBarButtonItem (UIBarButtonSystemItem.Action, shareItem);
 			//actionButton.AccessibilityLabel = "actionButton";
@@ -131,13 +121,15 @@ namespace MasterDetail
 				publisherLabel.Text = "No publisher information available.";
 			}
 
-			getPrice ();
-			await Task.Delay (1000); // the issue with time is it's so dependent on internet connection.
-			priceButton.SetTitle (priceString, UIControlState.Normal);
+			//getPrice ();
 
 			if(string.IsNullOrEmpty(DetailItem.isbn))
 			{
-				priceButton.SetTitle ("Sorry, no pricing available.", UIControlState.Disabled);
+				priceButton.SetTitle ("Sorry, no pricing available", UIControlState.Disabled);
+			}
+			else
+			{
+				priceButton.SetTitle ("Tap to open Safari for Amazon pricing", UIControlState.Normal);
 			}
 		}
 
@@ -259,7 +251,7 @@ namespace MasterDetail
 				string path = DetailItem.userimagepath;
 				Console.Out.WriteLine ("pngfilename = " + path);
 
-				/*try
+				try
 				{
 					await ImageService.LoadFile(path)
 						.Success(() =>
@@ -277,11 +269,18 @@ namespace MasterDetail
 				catch(Exception ex)
 				{
 					Console.Out.WriteLine ("image loaded exception \n" + ex.ToString ());
+				}
+
+				/*try
+				{
+					coverImage.Image = UIImage.FromFile (path);
+
+					coverImage.Transform = CGAffineTransform.MakeRotation ((float)Math.PI/2);
+				}
+				catch(Exception ex)
+				{
+					Console.Out.WriteLine ("Error trying to open custom photo. " + ex);
 				}*/
-
-				coverImage.Image = UIImage.FromFile (path);
-
-				coverImage.Transform = CGAffineTransform.MakeRotation ((float)Math.PI/2);
 			}
 		}
 

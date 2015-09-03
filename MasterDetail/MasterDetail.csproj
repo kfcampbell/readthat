@@ -133,5 +133,6 @@
   <ItemGroup>
     <BundleResource Include="Resources\unavailable.png" />
     <BundleResource Include="Resources\unavailable2.png" />
+    <BundleResource Include="Resources\tabBarBackground.png" />
   </ItemGroup>
 </Project>

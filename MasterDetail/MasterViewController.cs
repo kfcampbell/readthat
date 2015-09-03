@@ -54,7 +54,11 @@ namespace MasterDetail
 			bookList = BookList (db);
 
 			// Perform any additional setup after loading the view, typically from a nib.
-			NavigationItem.LeftBarButtonItem = EditButtonItem;
+			//NavigationItem.LeftBarButtonItem = EditButtonItem;
+			/*NavigationItem.LeftBarButtonItem = new UIBarButtonItem (
+				UIImage.FromFile ("tabBarBackground.png"), UIBarButtonItemStyle.Plain, (sender, args) => {
+				NavigationController.PopViewControllerAnimated (true);
+				}), true);*/
 
 			// experiment with fuck the edit button item. going for sorting here
 			var sortButton = new UIBarButtonItem (UIBarButtonSystemItem.Bookmarks, sortDataBase);
@@ -72,7 +76,10 @@ namespace MasterDetail
 		{
 			base.ViewDidLoad ();
 			this.Title = "Book List";
-			this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+			//this.NavigationController.NavigationBar.BackgroundColor = UIColor.Blue;
+			//NavigationController.NavigationBar.Appearance.SetBackgroundImage (UIImage.FromBundle ("unavailable2.png"), UIBarPosition.TopAttached, UIBarMetrics.Default);
+
+			NavigationController.NavigationBar.BarStyle = UIBarStyle.BlackTranslucent;
 
 			// begin creating and loading the database attempt
 			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

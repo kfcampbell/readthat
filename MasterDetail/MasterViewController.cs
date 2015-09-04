@@ -55,10 +55,7 @@ namespace MasterDetail
 
 			// Perform any additional setup after loading the view, typically from a nib.
 			//NavigationItem.LeftBarButtonItem = EditButtonItem;
-			/*NavigationItem.LeftBarButtonItem = new UIBarButtonItem (
-				UIImage.FromFile ("tabBarBackground.png"), UIBarButtonItemStyle.Plain, (sender, args) => {
-				NavigationController.PopViewControllerAnimated (true);
-				}), true);*/
+
 
 			// experiment with fuck the edit button item. going for sorting here
 			var sortButton = new UIBarButtonItem (UIBarButtonSystemItem.Bookmarks, sortDataBase);
@@ -271,7 +268,7 @@ namespace MasterDetail
 			Book[] bookArray = db.Query<Book> ("select * from Book").ToArray ();
 			for(int i = 0; i < bookArray.Length; i++)
 			{
-				Console.Out.WriteLine ("Book array " + i + ": " + bookArray [i].getTitle ());
+				//Console.Out.WriteLine ("Book array " + i + ": " + bookArray [i].getTitle ());
 			}
 			return db.Query<Book> ("select * from Book");
 		}

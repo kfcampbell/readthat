@@ -21,8 +21,6 @@ namespace MasterDetail
 		public Book DetailItem { get; set; }
 		public WebClient webClient;
 
-		string priceString = "Sorry; pricing data not available.";
-
 		public BookViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -43,6 +41,10 @@ namespace MasterDetail
 				string url = "http://amazon.com/s?index=books&field-isbn=" + DetailItem.isbn;
 
 				UIApplication.SharedApplication.OpenUrl(new NSUrl(url));
+			}
+			else
+			{
+				Console.Out.WriteLine("Price button hit, but no pricing data available!");
 			}
 		}
 
@@ -109,6 +111,10 @@ namespace MasterDetail
 				dateAddedLabel.Text = "Added " + DetailItem.getDateAdded ().ToString ();
 				publisherLabel.Text = DetailItem.getPublisher ();
 
+				Console.Out.WriteLine ("detailitem : " + DetailItem.userimagepath);
+				Console.Out.WriteLine ("detailitem: " + DetailItem.usesuserphoto);
+
+
 				// attempt to download the cover photo
 				downloadAsync ();
 
@@ -125,7 +131,8 @@ namespace MasterDetail
 
 			if(string.IsNullOrEmpty(DetailItem.isbn))
 			{
-				priceButton.SetTitle ("Sorry, no pricing available", UIControlState.Disabled);
+				Console.Out.WriteLine ("test book. no pricing data available.");
+				priceButton.SetTitle ("Sorry, no pricing available", UIControlState.Normal);
 			}
 			else
 			{
@@ -202,46 +209,55 @@ namespace MasterDetail
 		{
 			if (!DetailItem.usesuserphoto) 
 			{
-				BTProgressHUD.Show ("Retrieving Cover...");
-				webClient = new WebClient ();
-				//An large image url
-				var url = new Uri (DetailItem.getCoverString ());
-				byte[] bytes = null;
+				try
+				{
+					BTProgressHUD.Show ("Retrieving Cover...");
+					webClient = new WebClient ();
+					//An large image url
+					var url = new Uri (DetailItem.getCoverString ());
+					byte[] bytes = null;
 
-				webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
+					webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
 
-				//Start download data using DownloadDataTaskAsync
-				try {
-					bytes = await webClient.DownloadDataTaskAsync (url);
-				} catch (OperationCanceledException) {
-					Console.WriteLine ("Task Canceled!");
-					return;
-				} catch (Exception e) {
-					Console.WriteLine (e.ToString ());
-					return;
+					//Start download data using DownloadDataTaskAsync
+					try {
+						bytes = await webClient.DownloadDataTaskAsync (url);
+					} catch (OperationCanceledException) {
+						Console.WriteLine ("Task Canceled!");
+						return;
+					} catch (Exception e) {
+						Console.WriteLine (e.ToString ());
+						return;
+					}
+					string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+					string localFilename = "downloaded.png";
+					string localPath = Path.Combine (documentsPath, localFilename);
+
+					//Save the image using writeAsync
+					FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+					await fs.WriteAsync (bytes, 0, bytes.Length);
+					fs.Close ();
+
+					Console.WriteLine ("localPath:" + localPath);
+
+					//Resizing image is time costing, using async to avoid blocking the UI thread
+					UIImage image = null;
+					CGSize imageViewSize = coverImage.Frame.Size;
+
+					await Task.Run (() => {
+						image = UIImage.FromFile (localPath).Scale (imageViewSize);
+					});
+					Console.WriteLine ("Loaded!");
+
+					BTProgressHUD.Dismiss ();
+					coverImage.Image = image;
 				}
-				string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-				string localFilename = "downloaded.png";
-				string localPath = Path.Combine (documentsPath, localFilename);
+				catch(Exception ex)
+				{
+					Console.Out.WriteLine ("Error in loading image from online: " + ex.ToString ());
+					waitForToast ("Error in loading image from online.", 2000);
+				}
 
-				//Save the image using writeAsync
-				FileStream fs = new FileStream (localPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-				await fs.WriteAsync (bytes, 0, bytes.Length);
-				fs.Close ();
-
-				Console.WriteLine ("localPath:" + localPath);
-
-				//Resizing image is time costing, using async to avoid blocking the UI thread
-				UIImage image = null;
-				CGSize imageViewSize = coverImage.Frame.Size;
-
-				await Task.Run (() => {
-					image = UIImage.FromFile (localPath).Scale (imageViewSize);
-				});
-				Console.WriteLine ("Loaded!");
-
-				BTProgressHUD.Dismiss ();
-				coverImage.Image = image;
 			} else
 			{
 				Console.Out.WriteLine ("usesuserphoto == true; displaying image from file");
@@ -284,6 +300,13 @@ namespace MasterDetail
 			}
 		}
 
+		async void waitForToast(string content, int millis)
+		{
+			BTProgressHUD.ShowToast (content, true);
+			await Task.Delay (millis);
+			BTProgressHUD.Dismiss();
+		}
+
 		void HandleDownloadProgressChanged (object sender, DownloadProgressChangedEventArgs e)
 		{
 			//this.downloadProgress.Progress = e.ProgressPercentage / 100.0f;
@@ -303,6 +326,7 @@ namespace MasterDetail
 		{
 			if(string.IsNullOrEmpty(DetailItem.isbn))
 			{
+				Console.Out.WriteLine ("test book. no pricing data.");
 				priceButton.SetTitle ("Sorry, pricing data is only available via ISBN", UIControlState.Disabled);
 			}
 			else
@@ -344,7 +368,7 @@ namespace MasterDetail
 				{
 					Console.Out.WriteLine ("Amazon price: $" + obj ["price"].ToString ());
 					//priceButton.SetTitle ("Amazon price: $" + obj ["price"].ToString (), UIControlState.Normal);
-					priceString = "Amazon price: $" + obj ["price"];
+					//priceString = "Amazon price: $" + obj ["price"];
 				}
 				else
 				{

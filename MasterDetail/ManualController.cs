@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using UIKit;
 using SQLite;
 using System.IO;
+using BigTed;
 
 namespace MasterDetail
 {
@@ -45,6 +46,7 @@ namespace MasterDetail
 			Console.Out.WriteLine ("Configure view manual controller entered");
 			try
 			{
+				BTProgressHUD.Dismiss();
 				Console.Out.WriteLine("newbook title: " + newBook.getTitle());
 				titleField.Text = newBook.getTitle();
 				authorField.Text = newBook.getAuthor ();
